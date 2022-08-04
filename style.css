@@ -159,7 +159,6 @@ body {
     left: 0;
     top: 50px;
     right: 0;
-    font-size: 35px;
     display: none;
 }
 
@@ -209,21 +208,21 @@ body {
     justify-content: right;
 }
 
-#lE1 {
+.lE1 {
     height: 3px;
     width: 15%;
     background-color: #3f247a;
     margin-right: 10px;
 }
 
-#lE2 {
+.lE2 {
     height: 3px;
     width: 30%;
     background-color: #3f247a;
     margin-right: 10px;
 }
 
-#lE3 {
+.lE3 {
     height: 3px;
     width: 45%;
     background-color: #3f247a;
@@ -322,6 +321,59 @@ body {
     margin-bottom: 10px;
 }
 
+#demoCont {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(auto, 1fr);
+    margin-bottom: 10px;
+}
+
+.demo {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    border-radius: 10px;
+    background-color: #47268f;
+}
+
+.demo:hover {
+    background-color: #3f247a;
+}
+
+.demoLink {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.demoDesc {
+    grid-row: 2;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.demosTitle {
+    grid-row: 1;
+    font-size: 25px;
+    text-align: center;
+}
+
+.languages {
+    display: flex;
+    grid-row: 3;
+    font-size: 15px;
+    color: #1bff41;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-top: 5px;
+    border-top-color: #1bff41;
+    border-top-width: 1px;
+    border-top-style: solid;
+    align-items: flex-end;
+    padding-top: 10px;
+}
+
 #skillsSection {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -357,6 +409,12 @@ body {
         bottom: -15px !important;
         right: 5px !important;
         left: 35px !important;
+    }
+
+    .demoLink {
+        grid-column-start: 1 !important;
+        grid-column-end: 5 !important;
+        margin: 5px;
     }
 
     #skillCont {
