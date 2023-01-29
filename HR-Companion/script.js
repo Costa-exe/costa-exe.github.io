@@ -101,6 +101,26 @@ function thirdStage() {
     c.innerHTML = 'Mostra i Giocatori >>';
     a.innerHTML = 'Partita 1 vs 1 >>';
     b.innerHTML = 'Partita a Squadre >>';
+    a.onclick = () => {
+        document.getElementById("prePlay").style.display = "block";
+        for (let i = 1; i <= 2; i++) {
+            let p = document.createElement("p");
+            let select = document.createElement("select");
+            select.name = `player-${i}`;
+            for (let j = 0; j < playersName.length; j++) {
+                let option = document.createElement("option");
+                option.value = playersName[j];
+                option.innerHTML = playersName[j];
+                select.appendChild(option);
+            }
+            let label = document.createElement("label");
+            label.for = `player-${i}`;
+            label.innerHTML = `<b>Giocatore ${i} : </b>`;
+            p.append(label, select);
+            document.getElementById("contentPlay").appendChild(p);
+        }
+
+    }
     c.onclick = () => {
         document.getElementById("blackBack").style.display = "block";
         document.getElementById("playersInfo").style.display = "block";
@@ -111,6 +131,10 @@ function thirdStage() {
 }
 
 function classSorting(x) {
+    if (x.length < 6) {
+        razze.pop();
+        classi.pop();
+    }
     let RazzeB = razze;
     let classiB = classi;
     for (let i = 0; i < x.length; i++) {
@@ -169,8 +193,16 @@ function classSorting(x) {
     }
 }
 
+function OneVSOne() {
+
+}
+
 function main() {
     document.getElementById("stage1-button").onclick = secondStage;
+    document.getElementById("goBack").onclick = () => {
+        document.getElementById("prePlay").style.display = "none";
+        document.getElementById("contentPlay").innerHTML = "";
+    };
 }
 
 window.onload = main;
