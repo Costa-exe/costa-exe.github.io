@@ -44,7 +44,7 @@ function draw() {
     if (curr) {
         curr.sprite.y = 25
         curr.sprite.x = constrain(mouseX, 10 + curr.sprite.d / 2, 490 - curr.sprite.d / 2)
-        curr.sprite.vel.y = 0
+        curr.sprite.velocity.y = 0
     } else {
         timer++
     }
