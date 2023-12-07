@@ -1,7 +1,10 @@
 //Video: https://youtu.be/zTNuMUsO-1g?si=gf3Cc8TarPge0y-K
 
-let timer
-let array
+let timer;
+let array;
+var Engine = Matter.Engine;
+var engine = Engine.create();
+var world = engine.world;
 
 let fruitColors = [
     '#f32223',
