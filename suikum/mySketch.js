@@ -43,7 +43,7 @@ function draw() {
 
     if (curr) {
         curr.sprite.y = 25
-        curr.sprite.x = constrain(Number(mouseX), 10 + Number(curr.sprite.d) / 2, 490 - Number(curr.sprite.d) / 2)
+        curr.sprite.x = constrain(Number(mouseX), Number(10) + Number(curr.sprite.d) / Number(2), Number(490) - Number(curr.sprite.d) / Number(2))
         curr.sprite.velocity.y = 0
     } else {
         timer++
