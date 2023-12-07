@@ -43,7 +43,8 @@ function draw() {
 
     if (curr) {
         curr.sprite.y = 25
-        curr.sprite.x = constrain(Number(mouseX), Number(10) + Number(curr.sprite.d) / Number(2), Number(490) - Number(curr.sprite.d) / Number(2))
+        console.log(curr.sprite.d)
+        curr.sprite.x = constrain(mouseX, 10 + curr.sprite.d / 2, 490 - curr.sprite.d / 2)
         curr.sprite.velocity.y = 0
     } else {
         timer++
