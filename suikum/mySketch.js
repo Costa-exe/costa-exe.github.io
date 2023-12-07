@@ -18,7 +18,6 @@ let fruitColors = [
 function setup() {
     createCanvas(500, 600)
     background('#f7f2c8')
-    let world = createWorld();
     world.gravity.y = 15;
 
     let walls = []
