@@ -14,19 +14,68 @@
 </head>
 
 <body>
-    <div id="header">
-        <div id="logoContainerUp">
-            <img src="./imgs/header.PNG" alt="header-logo" id="headerLogo">
-        </div>
-        <div id="headerOptions">
-            <div class="Option">
-                <div>ACCEDI</div>
-            </div>
-            <div class="Option">NAVIGA</div>
-        </div>
-    </div>
     <div id="mainWrapperBack">
-        <div id="mainWrapper">
+        <div id="mainWrapper" class="mainWrapper hideScroll">
+            <div id="header">
+                <div id="logoContainerUp">
+                    <img src="./imgs/header.PNG" alt="header-logo" id="headerLogo">
+                </div>
+            </div>
+            <div id="headerOptions" class="sticky-element">
+                <div class="Option">
+                    <div class="headerO">HOME</div>
+                </div>
+                <div class="Option">
+                    <div class="headerO">ACCEDI</div>
+                </div>
+                <div class="Option">
+                    <div class="headerO">YU-GI-OH</div>
+                </div>
+                <div class="Option">
+                    <div class="headerO" id="actual">POKÈMON</div>
+                </div>
+                <div class="Option">
+                    <div class="headerO">MAGIC</div>
+                </div>
+            </div>
+            <div id="tagsList">
+                <span class="space">Tag Popolari :</span>
+                <span class="space" id="firstArrow">
+                    < </span>
+                        <div id="elementsTag">
+                            <div class="tagDemo">#Pokémon</div>
+                            <div class="tagDemo">#old</div>
+                            <div class="tagDemo">#curiostà</div>
+                            <div class="tagDemo">#lore</div>
+                            <div class="tagDemo">#cards</div>
+                            <div class="tagDemo">#Pokémon</div>
+                            <div class="tagDemo">#old</div>
+                            <div class="tagDemo">#curiostà</div>
+                            <div class="tagDemo">#lore</div>
+                            <div class="tagDemo">#cards</div>
+                            <div class="tagDemo">#Pokémon</div>
+                            <div class="tagDemo">#old</div>
+                            <div class="tagDemo">#curiostà</div>
+                            <div class="tagDemo">#lore</div>
+                            <div class="tagDemo">#cards</div>
+                            <div class="tagDemo">#Pokémon</div>
+                            <div class="tagDemo">#old</div>
+                            <div class="tagDemo">#curiostà</div>
+                            <div class="tagDemo">#lore</div>
+                            <div class="tagDemo">#cards</div>
+                            <div class="tagDemo">#Pokémon</div>
+                            <div class="tagDemo">#old</div>
+                            <div class="tagDemo">#curiostà</div>
+                            <div class="tagDemo">#lore</div>
+                            <div class="tagDemo">#cards</div>
+                            <div class="tagDemo">#Pokémon</div>
+                            <div class="tagDemo">#old</div>
+                            <div class="tagDemo">#curiostà</div>
+                            <div class="tagDemo">#lore</div>
+                            <div class="tagDemo">#cards</div>
+                        </div>
+                        <span id="lastArrow">></span>
+            </div>
             <h3 id="tags"><span class="tag">#Pokémon</span> <span class="tag">#old</span> <span
                     class="tag">#curiosità</span> <span class="tag">#lore</span></h3>
             <br>
@@ -184,32 +233,53 @@
                     <p>A Cura Di</p>
                     <p><b>Giorgio Carlabrugoli</b></p>
                 </div>
+                <br>
+                <h1>Sezione Commenti</h1>
+                <br>
+            </div>
+            <div id="footer">
+                <div id="contactInfos">
+                    <div class="Option">
+                        <div>Chi Siamo</div>
+                    </div>
+                    <div class="Option">Newsletter</div>
+                </div>
+                <div id="vatInfos">
+                    <div id="redImg"><img src="./imgs/footer.PNG" alt="footer-logo" id="footerLogo"></div>
+                    <div id="vatData">
+                        <p>Tcgwave (D.F.)</p>
+                        <p>P. IVA: 02116120672</p>
+                    </div>
+                </div>
+                <div id="Socials">
+                    <div id="socialTitle">Seguici</div>
+                    <div id="socialLogos">
+                        <img src="./imgs/socials/iconmonstr-facebook-6.svg" alt="fb">
+                        <img src="./imgs/socials/iconmonstr-instagram-11.svg" alt="ig">
+                        <img src="./imgs/socials/iconmonstr-twitter-5.svg" alt="X">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div id="footer">
-        <div id="contactInfos">
-            <div class="Option">
-                <div>Chi Siamo</div>
-            </div>
-            <div class="Option">Newsletter</div>
-        </div>
-        <div id="vatInfos">
-            <div id="redImg"><img src="./imgs/footer.PNG" alt="footer-logo" id="footerLogo"></div>
-            <div id="vatData">
-                <p>Tcgwave (D.F.)</p>
-                <p>P. IVA: 02116120672</p>
-            </div>
-        </div>
-        <div id="Socials">
-            <div id="socialTitle">Seguici</div>
-            <div id="socialLogos">
-                <img src="./imgs/socials/iconmonstr-facebook-6.svg" alt="fb">
-                <img src="./imgs/socials/iconmonstr-instagram-11.svg" alt="ig">
-                <img src="./imgs/socials/iconmonstr-twitter-5.svg" alt="X">
-            </div>
-        </div>
-    </div>
+    <script>
+        var hiding = null;
+        document.getElementById('mainWrapper').addEventListener('scroll', function () {
+            if (hiding != null) {
+                clearTimeout(hiding);
+            }
+            document.getElementById('mainWrapper').classList.remove('hideScroll');
+            var stickyElement = document.querySelector('.sticky-element');
+            if (stickyElement.offsetTop > 100) {
+                stickyElement.classList.add('sticky-top');
+            } else {
+                stickyElement.classList.remove('sticky-top');
+            }
+            hiding = setTimeout(() => {
+                document.getElementById('mainWrapper').classList.add('hideScroll');
+            }, '1500');
+        });
+    </script>
 </body>
 
 </html>
