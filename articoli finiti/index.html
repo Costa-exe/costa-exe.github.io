@@ -15,7 +15,7 @@
 
 <body>
     <div id="mainWrapperBack">
-        <div id="mainWrapper" class="mainWrapper hideScroll">
+        <div id="mainWrapper" class="mainWrapper">
             <div id="header">
                 <div id="logoContainerUp">
                     <img src="./imgs/header.PNG" alt="header-logo" id="headerLogo">
@@ -26,7 +26,7 @@
                     <div class="headerO">HOME</div>
                 </div>
                 <div class="Option">
-                    <div class="headerO">ACCEDI</div>
+                    <div class="headerO">LOGOUT</div>
                 </div>
                 <div class="Option">
                     <div class="headerO">YU-GI-OH</div>
@@ -37,15 +37,17 @@
                 <div class="Option">
                     <div class="headerO">MAGIC</div>
                 </div>
+                <div class="Option">
+                    <div class="headerO">ONE PIECE</div>
+                </div>
             </div>
             <div id="tagsList">
-                <span class="space">Tag Popolari :</span>
                 <span class="space" id="firstArrow">
                     < </span>
                         <div id="elementsTag">
-                            <div class="tagDemo">#Pokémon</div>
-                            <div class="tagDemo">#old</div>
-                            <div class="tagDemo">#curiostà</div>
+                            <div class="tagDemo thisTag">#Pokémon</div>
+                            <div class="tagDemo thisTag">#old</div>
+                            <div class="tagDemo thisTag">#curiostà</div>
                             <div class="tagDemo">#lore</div>
                             <div class="tagDemo">#cards</div>
                             <div class="tagDemo">#Pokémon</div>
@@ -76,8 +78,6 @@
                         </div>
                         <span id="lastArrow">></span>
             </div>
-            <h3 id="tags"><span class="tag">#Pokémon</span> <span class="tag">#old</span> <span
-                    class="tag">#curiosità</span> <span class="tag">#lore</span></h3>
             <br>
             <div class="mainT">
                 <h1>L’era e-series: l’esplorazione del misterioso e del recondito</h1>
@@ -234,9 +234,82 @@
                     <p><b>Giorgio Carlabrugoli</b></p>
                 </div>
                 <br>
-                <h1>Sezione Commenti</h1>
-                <br>
             </div>
+            <h1>Sezione Commenti</h1>
+            <br>
+            <div id="comments">
+                <div class="firstComment">
+                    <div class="avatarContainer">
+                        <img src="./imgs/2.jpg" class="avatar">
+                        <p id="Giovanni">Giovanni</p>
+                    </div>
+                    <textarea class="textContainer"></textarea>
+                </div>
+                <br>
+                <div class="firstComment">
+                    <div class="avatarContainer">
+                        <img src="./imgs/1.jpg" class="avatar">
+                        <p>Costa.exe</p>
+                    </div>
+                    <div class="textContainer">
+                        <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet
+                            sollicitudin odio. Nam vel convallis elit. Mauris accumsan dui imperdiet tincidunt eleifend.
+                            Donec tempus mauris at libero rhoncus, sed gravida sem hendrerit. Nullam at nibh
+                            condimentum, interdum massa ac, placerat nisl. Quisque lorem velit, interdum a arcu ac,
+                            vestibulum egestas ipsum. In lobortis ornare velit, vel scelerisque ipsum fermentum non. Ut
+                            congue dignissim odio eu finibus. Proin eu lorem at nibh laoreet fermentum. Donec
+                            scelerisque massa eget consectetur pulvinar. Donec metus urna, feugiat vel pellentesque
+                            maximus, mollis vel justo. Quisque tristique vehicula justo, sed suscipit elit mattis eget.
+                        </div>
+                        <div class="baseText">
+                            <div class="likeCount">
+                                <img src="./imgs/icon1.svg" class="likeIcon">
+                                <p>0</p>
+                            </div>
+                            <div class="dateText">09/09/1998, 12:43</div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="firstComment">
+                    <div class="avatarContainer">
+                        <img src="./imgs/2.jpg" class="avatar">
+                        <p id="Giovanni">Giovanni</p>
+                    </div>
+                    <div class="textContainer">
+                        <div class="text">Primo Commento!</div>
+                        <div class="baseText">
+                            <div class="likeCount">
+                                <img src="./imgs/icon1.svg" class="likeIcon">
+                                <p>0</p>
+                            </div>
+                            <div class="dateText">09/09/1998, 12:43</div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="firstComment response">
+                    <div class="avatarContainer">
+                        <img src="./imgs/1.jpg" class="avatar">
+                        <p>Costa.exe</p>
+                    </div>
+                    <div class="textContainer">
+                        <div class="responseTo">In risposta a <span id="userLink">@Giovanni</span></div>
+                        <div class="text">Risposta!</div>
+                        <div class="baseText">
+                            <div class="likeCount">
+                                <img src="./imgs/icon1.svg" class="likeIcon">
+                                <p>0</p>
+                            </div>
+                            <div class="dateText">09/09/1998, 12:43</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="loadOthers">
+                    <div>Carica Altri Commenti</div>
+                </div>
+            </div>
+            <br>
             <div id="footer">
                 <div id="contactInfos">
                     <div class="Option">
@@ -263,21 +336,13 @@
         </div>
     </div>
     <script>
-        var hiding = null;
         document.getElementById('mainWrapper').addEventListener('scroll', function () {
-            if (hiding != null) {
-                clearTimeout(hiding);
-            }
-            document.getElementById('mainWrapper').classList.remove('hideScroll');
             var stickyElement = document.querySelector('.sticky-element');
             if (stickyElement.offsetTop > 100) {
                 stickyElement.classList.add('sticky-top');
             } else {
                 stickyElement.classList.remove('sticky-top');
             }
-            hiding = setTimeout(() => {
-                document.getElementById('mainWrapper').classList.add('hideScroll');
-            }, '1500');
         });
     </script>
 </body>
