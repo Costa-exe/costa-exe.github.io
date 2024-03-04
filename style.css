@@ -6,11 +6,19 @@
 
 html {
     background-color: #2b2a2a;
-    overflow-y: hidden;
+    overflow-y: auto;
     overflow-x: hidden;
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-style: normal;
+}
+
+body {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 #mainCard {
@@ -19,7 +27,7 @@ html {
     top: 0;
     left: 0;
     right: 0;
-    min-height: 100vh;
+    height: 100vh;
     margin-left: 20%;
     margin-right: 20%;
     overflow-x: hidden;
@@ -184,6 +192,14 @@ h1 {
     font-size: 40px;
 }
 
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
 #rank {
     position: absolute;
     top: 0;
@@ -274,17 +290,23 @@ h1 {
 }
 
 .mainContent::-webkit-scrollbar,
-.mainContentCal::-webkit-scrollbar {
+.mainContentCal::-webkit-scrollbar,
+#mainCard::-webkit-scrollbar,
+html::-webkit-scrollbar {
     display: none;
 }
 
 .mainContent::-webkit-scrollbar-track,
-.mainContentCal::-webkit-scrollbar-track {
+.mainContentCal::-webkit-scrollbar-track,
+#mainCard::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track {
     display: none;
 }
 
 .mainContent::-webkit-scrollbar-thumb,
-.mainContentCal::-webkit-scrollbar-thumb {
+.mainContentCal::-webkit-scrollbar-thumb,
+#mainCard::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb {
     display: none;
 }
 
