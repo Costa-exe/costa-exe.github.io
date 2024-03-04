@@ -292,21 +292,24 @@ h1 {
 .mainContent::-webkit-scrollbar,
 .mainContentCal::-webkit-scrollbar,
 #mainCard::-webkit-scrollbar,
-html::-webkit-scrollbar {
+html::-webkit-scrollbar,
+#disclaimer::-webkit-scrollbar {
     display: none;
 }
 
 .mainContent::-webkit-scrollbar-track,
 .mainContentCal::-webkit-scrollbar-track,
 #mainCard::-webkit-scrollbar-track,
-html::-webkit-scrollbar-track {
+html::-webkit-scrollbar-track,
+#disclaimer::-webkit-scrollbar-track {
     display: none;
 }
 
 .mainContent::-webkit-scrollbar-thumb,
 .mainContentCal::-webkit-scrollbar-thumb,
 #mainCard::-webkit-scrollbar-thumb,
-html::-webkit-scrollbar-thumb {
+html::-webkit-scrollbar-thumb,
+#disclaimer::-webkit-scrollbar-thumb {
     display: none;
 }
 
@@ -412,6 +415,8 @@ html::-webkit-scrollbar-thumb {
     text-align: center;
     padding: 5px;
     font-size: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #disclaimer>p>a {
