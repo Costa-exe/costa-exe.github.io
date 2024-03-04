@@ -1,0 +1,24 @@
+{
+    "players": [
+        {
+            "punti": 12,
+            "nome": "Player1",
+            "PG": [
+                "Kazuya",
+                "Yoshimitsu"
+            ],
+            "totalSetWon": 32,
+            "totalSetLost": 2
+        },
+        {
+            "punti": 12,
+            "nome": "PLayer2",
+            "PG": [
+                "Azucena",
+                "Feng"
+            ],
+            "totalSetWon": 32,
+            "totalSetLost": 2
+        }
+    ]
+}

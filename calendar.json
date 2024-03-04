@@ -1,0 +1,45 @@
+{
+    "giornate": [
+        {
+            "date": "12/03/2027",
+            "match": [
+                {
+                    "round": [
+                        {
+                            "player1": {
+                                "name": "Player1",
+                                "PG": "Kazuya",
+                                "Won": "Yes",
+                                "SetWon": 2,
+                                "SetLost": 0
+                            },
+                            "player2": {
+                                "name": "Player1",
+                                "PG": "Yoshimitsu",
+                                "Won": "No",
+                                "SetWon": 0,
+                                "SetLost": 2
+                            }
+                        },
+                        {
+                            "player1": {
+                                "name": "Player1",
+                                "PG": "Azucena",
+                                "Won": "No",
+                                "SetWon": 1,
+                                "SetLost": 2
+                            },
+                            "player2": {
+                                "name": "Player1",
+                                "PG": "Feng",
+                                "Won": "Yes",
+                                "SetWon": 2,
+                                "SetLost": 1
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
