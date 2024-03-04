@@ -407,7 +407,7 @@ html::-webkit-scrollbar-thumb,
     position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
+    bottom: 0;
     right: 0;
     color: #ffffff;
     display: none;
