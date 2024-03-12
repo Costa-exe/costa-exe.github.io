@@ -402,6 +402,10 @@ html::-webkit-scrollbar-thumb,
     }
 }
 
+#showplayer {
+    padding: 5px;
+}
+
 #disclaimer {
     background-color: #070707;
     position: absolute;

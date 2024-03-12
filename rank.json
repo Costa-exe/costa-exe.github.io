@@ -1,24 +1,154 @@
 {
     "players": [
         {
-            "punti": 12,
-            "nome": "Player1",
+            "punti": 0,
+            "nome": "Costa",
             "PG": [
-                "Kazuya",
-                "Yoshimitsu"
+                "Law",
+                "Jun"
             ],
-            "totalSetWon": 32,
-            "totalSetLost": 2
+            "totalSetWon": 0,
+            "totalSetLost": 0
         },
         {
-            "punti": 12,
-            "nome": "PLayer2",
+            "punti": 0,
+            "nome": "Nykolay_03",
             "PG": [
-                "Azucena",
+                "Yoshimitsu",
+                "Xiaoyu"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "Hammer_Opm",
+            "PG": [
+                "Jin",
+                "Hwoarang"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "Maxwell",
+            "PG": [
+                "Steve",
+                "Yoshimitsu"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "Daigo_kys",
+            "PG": [
+                "Kazuya",
+                "Devil Jin"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "ErPupone18",
+            "PG": [
+                "Steve",
+                "Law"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "Frate90",
+            "PG": [
+                "Hwoarang",
+                "Raven"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "Spacchio",
+            "PG": [
+                "Reina",
                 "Feng"
             ],
-            "totalSetWon": 32,
-            "totalSetLost": 2
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "NAPO",
+            "PG": [
+                "Kuma",
+                "Azucena"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "Budajorn",
+            "PG": [
+                "King",
+                "Hwoarang"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "Ciro_5g",
+            "PG": [
+                "Lars",
+                "Lee"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "FireJack",
+            "PG": [
+                "Claudio",
+                "Kazuya"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "ManzoMuuu",
+            "PG": [
+                "Hwoarang",
+                "Shaheen"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "Badu_Senju",
+            "PG": [
+                "Paul",
+                "Victor"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
+        },
+        {
+            "punti": 0,
+            "nome": "Sborrat",
+            "PG": [
+                "Lili",
+                "Kuma"
+            ],
+            "totalSetWon": 0,
+            "totalSetLost": 0
         }
     ]
 }

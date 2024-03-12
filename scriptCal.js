@@ -23,7 +23,10 @@ function CalRender() {
                     let matchContainer = document.createElement('div');
                     matchContainer.setAttribute('class', 'matchContainer');
                     let p1 = document.createElement('p');
-                    p1.innerHTML = `${result.giornate[i].match[j].round[0].player1.name} VS ${result.giornate[i].match[j].round[0].player2.name}`;
+                    p1.innerHTML = `<span>${result.giornate[i].match[j].round[0].player1.name}</span> <span>VS</span> <span>${result.giornate[i].match[j].round[0].player2.name}</span>`;
+                    p1.style.display = 'grid';
+                    p1.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                    p1.id = 'showplayer';
                     matchContainer.appendChild(p1);
                     let RoundWonP1 = 0;
                     let RoundWonP2 = 0;
