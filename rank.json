@@ -1,34 +1,34 @@
 {
     "players": [
         {
-            "punti": 0,
+            "punti": 1,
             "nome": "Costa",
             "PG": [
                 "Law",
                 "Jun"
             ],
-            "totalSetWon": 0,
-            "totalSetLost": 0
+            "totalSetWon": 2,
+            "totalSetLost": 2
         },
         {
-            "punti": 0,
+            "punti": 1,
             "nome": "Nykolay_03",
             "PG": [
                 "Yoshimitsu",
                 "Xiaoyu"
             ],
-            "totalSetWon": 0,
-            "totalSetLost": 0
+            "totalSetWon": 2,
+            "totalSetLost": 2
         },
         {
-            "punti": 0,
+            "punti": 1,
             "nome": "Hammer_Opm",
             "PG": [
                 "Jin",
                 "Hwoarang"
             ],
-            "totalSetWon": 0,
-            "totalSetLost": 0
+            "totalSetWon": 2,
+            "totalSetLost": 2
         },
         {
             "punti": 0,
@@ -37,8 +37,8 @@
                 "Steve",
                 "Yoshimitsu"
             ],
-            "totalSetWon": 0,
-            "totalSetLost": 0
+            "totalSetWon": 2,
+            "totalSetLost": 4
         },
         {
             "punti": 0,
@@ -51,14 +51,14 @@
             "totalSetLost": 0
         },
         {
-            "punti": 0,
+            "punti": 2,
             "nome": "ErPupone18",
             "PG": [
                 "Steve",
                 "Law"
             ],
-            "totalSetWon": 0,
-            "totalSetLost": 0
+            "totalSetWon": 4,
+            "totalSetLost": 2
         },
         {
             "punti": 0,
@@ -71,14 +71,14 @@
             "totalSetLost": 0
         },
         {
-            "punti": 0,
+            "punti": 1,
             "nome": "Spacchio",
             "PG": [
                 "Reina",
                 "Feng"
             ],
-            "totalSetWon": 0,
-            "totalSetLost": 0
+            "totalSetWon": 2,
+            "totalSetLost": 2
         },
         {
             "punti": 0,
@@ -91,13 +91,13 @@
             "totalSetLost": 0
         },
         {
-            "punti": 0,
+            "punti": 2,
             "nome": "Budajorn",
             "PG": [
                 "King",
                 "Hwoarang"
             ],
-            "totalSetWon": 0,
+            "totalSetWon": 4,
             "totalSetLost": 0
         },
         {
@@ -108,7 +108,7 @@
                 "Lee"
             ],
             "totalSetWon": 0,
-            "totalSetLost": 0
+            "totalSetLost": 4
         },
         {
             "punti": 0,
@@ -128,16 +128,16 @@
                 "Shaheen"
             ],
             "totalSetWon": 0,
-            "totalSetLost": 0
+            "totalSetLost": 4
         },
         {
-            "punti": 0,
+            "punti": 2,
             "nome": "Badu_Senju",
             "PG": [
                 "Paul",
                 "Victor"
             ],
-            "totalSetWon": 0,
+            "totalSetWon": 4,
             "totalSetLost": 0
         },
         {
