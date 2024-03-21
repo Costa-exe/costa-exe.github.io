@@ -377,34 +377,70 @@
                     "round": [
                         {
                             "player1": {
-                                "name": "FireJack",
-                                "PG": "-----",
+                                "name": "Costa",
+                                "PG": "Jun",
                                 "Won": "---",
-                                "SetWon": 0,
+                                "SetWon": 2,
                                 "SetLost": 0
                             },
                             "player2": {
                                 "name": "Budajorn",
-                                "PG": "-----",
+                                "PG": "King",
                                 "Won": "---",
                                 "SetWon": 0,
+                                "SetLost": 2
+                            }
+                        },
+                        {
+                            "player1": {
+                                "name": "Costa",
+                                "PG": "Law",
+                                "Won": "---",
+                                "SetWon": 2,
                                 "SetLost": 0
+                            },
+                            "player2": {
+                                "name": "Budajorn",
+                                "PG": "Hwoarang",
+                                "Won": "---",
+                                "SetWon": 0,
+                                "SetLost": 2
+                            }
+                        }
+                    ]
+                },
+                {
+                    "round": [
+                        {
+                            "player1": {
+                                "name": "FireJack",
+                                "PG": "Paul",
+                                "Won": "---",
+                                "SetWon": 2,
+                                "SetLost": 1
+                            },
+                            "player2": {
+                                "name": "Budajorn",
+                                "PG": "King",
+                                "Won": "---",
+                                "SetWon": 1,
+                                "SetLost": 2
                             }
                         },
                         {
                             "player1": {
                                 "name": "FireJack",
-                                "PG": "-----",
+                                "PG": "Claudio",
                                 "Won": "---",
-                                "SetWon": 0,
+                                "SetWon": 2,
                                 "SetLost": 0
                             },
                             "player2": {
                                 "name": "Budajorn",
-                                "PG": "-----",
+                                "PG": "Hwoarang",
                                 "Won": "---",
                                 "SetWon": 0,
-                                "SetLost": 0
+                                "SetLost": 2
                             }
                         }
                     ]
@@ -414,32 +450,32 @@
                         {
                             "player1": {
                                 "name": "Hammer_Opm",
-                                "PG": "-----",
+                                "PG": "Hwoarang",
                                 "Won": "---",
-                                "SetWon": 0,
+                                "SetWon": 2,
                                 "SetLost": 0
                             },
                             "player2": {
                                 "name": "Nykolay_03",
-                                "PG": "-----",
+                                "PG": "Xiaoyu",
                                 "Won": "---",
                                 "SetWon": 0,
-                                "SetLost": 0
+                                "SetLost": 2
                             }
                         },
                         {
                             "player1": {
                                 "name": "Hammer_Opm",
-                                "PG": "-----",
+                                "PG": "Jin",
                                 "Won": "---",
                                 "SetWon": 0,
-                                "SetLost": 0
+                                "SetLost": 2
                             },
                             "player2": {
                                 "name": "Nykolay_03",
-                                "PG": "-----",
+                                "PG": "Yoshimitsu",
                                 "Won": "---",
-                                "SetWon": 0,
+                                "SetWon": 2,
                                 "SetLost": 0
                             }
                         }
@@ -450,32 +486,32 @@
                         {
                             "player1": {
                                 "name": "Daigo_kys",
-                                "PG": "-----",
+                                "PG": "Kazuya",
                                 "Won": "---",
                                 "SetWon": 0,
-                                "SetLost": 0
+                                "SetLost": 2
                             },
                             "player2": {
                                 "name": "Spacchio",
-                                "PG": "-----",
+                                "PG": "Feng",
                                 "Won": "---",
                                 "SetWon": 0,
-                                "SetLost": 0
+                                "SetLost": 2
                             }
                         },
                         {
                             "player1": {
                                 "name": "Daigo_kys",
-                                "PG": "-----",
+                                "PG": "Devil Jin",
                                 "Won": "---",
                                 "SetWon": 0,
-                                "SetLost": 0
+                                "SetLost": 2
                             },
                             "player2": {
                                 "name": "Spacchio",
-                                "PG": "-----",
+                                "PG": "Reina",
                                 "Won": "---",
-                                "SetWon": 0,
+                                "SetWon": 2,
                                 "SetLost": 0
                             }
                         }
@@ -486,68 +522,32 @@
                         {
                             "player1": {
                                 "name": "Daigo_kys",
-                                "PG": "-----",
+                                "PG": "Kazuya",
                                 "Won": "---",
-                                "SetWon": 0,
-                                "SetLost": 0
+                                "SetWon": 1,
+                                "SetLost": 2
                             },
                             "player2": {
                                 "name": "ErPupone18",
-                                "PG": "-----",
+                                "PG": "Steve",
                                 "Won": "---",
-                                "SetWon": 0,
-                                "SetLost": 0
+                                "SetWon": 2,
+                                "SetLost": 1
                             }
                         },
                         {
                             "player1": {
                                 "name": "Daigo_kys",
-                                "PG": "-----",
+                                "PG": "Devil Jin",
                                 "Won": "---",
                                 "SetWon": 0,
-                                "SetLost": 0
+                                "SetLost": 2
                             },
                             "player2": {
                                 "name": "ErPupone18",
-                                "PG": "-----",
+                                "PG": "Law",
                                 "Won": "---",
-                                "SetWon": 0,
-                                "SetLost": 0
-                            }
-                        }
-                    ]
-                },
-                {
-                    "round": [
-                        {
-                            "player1": {
-                                "name": "Nykolay_03",
-                                "PG": "-----",
-                                "Won": "---",
-                                "SetWon": 0,
-                                "SetLost": 0
-                            },
-                            "player2": {
-                                "name": "FireJack",
-                                "PG": "-----",
-                                "Won": "---",
-                                "SetWon": 0,
-                                "SetLost": 0
-                            }
-                        },
-                        {
-                            "player1": {
-                                "name": "Nykolay_03",
-                                "PG": "-----",
-                                "Won": "---",
-                                "SetWon": 0,
-                                "SetLost": 0
-                            },
-                            "player2": {
-                                "name": "FireJack",
-                                "PG": "-----",
-                                "Won": "---",
-                                "SetWon": 0,
+                                "SetWon": 2,
                                 "SetLost": 0
                             }
                         }
@@ -558,32 +558,68 @@
                         {
                             "player1": {
                                 "name": "Badu_Senju",
-                                "PG": "-----",
+                                "PG": "Victor",
                                 "Won": "---",
                                 "SetWon": 0,
-                                "SetLost": 0
+                                "SetLost": 2
                             },
                             "player2": {
-                                "name": "Costa",
-                                "PG": "-----",
+                                "name": "FireJack",
+                                "PG": "Claudio",
                                 "Won": "---",
-                                "SetWon": 0,
+                                "SetWon": 2,
                                 "SetLost": 0
                             }
                         },
                         {
                             "player1": {
                                 "name": "Badu_Senju",
-                                "PG": "-----",
+                                "PG": "Paul",
                                 "Won": "---",
-                                "SetWon": 0,
+                                "SetWon": 2,
                                 "SetLost": 0
                             },
                             "player2": {
-                                "name": "Costa",
-                                "PG": "-----",
+                                "name": "FireJack",
+                                "PG": "Paul",
                                 "Won": "---",
                                 "SetWon": 0,
+                                "SetLost": 2
+                            }
+                        }
+                    ]
+                },
+                {
+                    "round": [
+                        {
+                            "player1": {
+                                "name": "Badu_Senju",
+                                "PG": "Victor",
+                                "Won": "---",
+                                "SetWon": 0,
+                                "SetLost": 2
+                            },
+                            "player2": {
+                                "name": "Costa",
+                                "PG": "Jun",
+                                "Won": "---",
+                                "SetWon": 2,
+                                "SetLost": 0
+                            }
+                        },
+                        {
+                            "player1": {
+                                "name": "Badu_Senju",
+                                "PG": "Paul",
+                                "Won": "---",
+                                "SetWon": 0,
+                                "SetLost": 2
+                            },
+                            "player2": {
+                                "name": "Costa",
+                                "PG": "Law",
+                                "Won": "---",
+                                "SetWon": 2,
                                 "SetLost": 0
                             }
                         }
