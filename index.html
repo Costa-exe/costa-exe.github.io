@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Term-Portfolio | tty Mode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23131421%22/><text x=%2215%22 y=%2265%22 font-family=%22monospace%22 font-size=%2250%22 font-weight=%22bold%22 fill=%22%239ece6a%22>%3E_</text></svg>">
+
+    <style>
+        :root {
+            --bg-color: #131421;
+            --main-bg: #0b0b14;
+            --text-color: #a9b1d6;
+            --cyan: #7dcfff;
+            --green: #9ece6a;
+            --yellow: #e0af68;
+            --magenta: #bb9af7;
+            --blue: #7aa2f7;
+            --red: #f7768e;
+            --dark-gray: #232433;
+            --light-gray: #303348;
+            --cursor-bg: #bb9af7;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--light-gray) var(--bg-color);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            border: 1px solid var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: var(--magenta);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-size: 14px;
+            overflow: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .sys-info {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .sys-info span {
+            color: var(--text-color);
+        }
+
+        .sys-info b {
+            color: var(--magenta);
+            font-weight: bold;
+        }
+
+        #clock {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .shortcuts {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .shortcuts span {
+            cursor: pointer;
+            padding: 2px 8px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .shortcuts span b {
+            color: var(--cyan);
+            background: var(--dark-gray);
+            padding: 1px 6px;
+            border-radius: 2px;
+            margin-right: 6px;
+        }
+
+        .shortcuts span.active {
+            background-color: var(--magenta);
+            color: #000;
+            font-weight: bold;
+        }
+
+        .shortcuts span.active b {
+            color: #000;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            border: 1px solid var(--dark-gray);
+            background: var(--main-bg);
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(2px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: var(--green);
+            margin-top: 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed var(--dark-gray);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        h1::before {
+            content: "❯ ";
+            color: var(--magenta);
+        }
+
+        p {
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+        }
+
+        .tree {
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+            margin: 15px 0 25px 0;
+            color: var(--text-color);
+        }
+
+        .tree-item {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .tree-branch {
+            color: var(--light-gray);
+            white-space: pre;
+            margin-right: 8px;
+            user-select: none;
+        }
+
+        .tree-node {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .tree-leaf {
+            color: var(--text-color);
+            word-break: break-word;
+        }
+
+        a {
+            color: var(--blue);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        a:hover {
+            color: var(--cyan);
+            border-bottom: 1px solid var(--cyan);
+        }
+
+        .log-container {
+            width: 100%;
+            overflow-x: auto;
+            background: var(--bg-color);
+            border: 1px solid var(--dark-gray);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            white-space: nowrap;
+        }
+
+        .log-table {
+            min-width: 900px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .log-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 2fr 4fr 1fr;
+            gap: 15px;
+            color: var(--magenta);
+            text-transform: uppercase;
+            font-weight: bold;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed var(--light-gray);
+            margin-bottom: 8px;
+        }
+
+        .log-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 2fr 4fr 1fr;
+            gap: 15px;
+            padding: 6px 4px;
+            transition: background 0.1s;
+        }
+
+        .log-row:hover {
+            background-color: var(--dark-gray);
+        }
+
+        .log-row span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .status-running {
+            color: var(--green);
+        }
+
+        .status-pending {
+            color: var(--yellow);
+        }
+
+        .status-terminated {
+            color: var(--red);
+        }
+
+        .status-unknown {
+            color: var(--light-gray);
+        }
+
+        pre {
+            background: var(--bg-color);
+            border: 1px solid var(--dark-gray);
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            color: var(--yellow);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        footer {
+            margin-top: 15px;
+            padding-top: 10px;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            min-height: 30px;
+        }
+
+        .prompt {
+            color: var(--green);
+            margin-right: 10px;
+            user-select: none;
+        }
+
+        .prompt .path {
+            color: var(--blue);
+        }
+
+        #cmd-echo {
+            color: var(--text-color);
+            white-space: pre;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 16px;
+            background-color: var(--cursor-bg);
+            animation: blink 0.8s step-end infinite;
+            margin-left: 2px;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto;
+                height: auto;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .shortcuts {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            main {
+                overflow-y: visible;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="sys-info">
+            <span><b>Ctx:</b> fabio-dev-cluster</span>
+            <span><b>User:</b> guest@user</span>
+            <span id="clock">00:00:00</span>
+        </div>
+        <div class="shortcuts" id="nav-menu">
+            <span onclick="switchTab('about', 'cat whoami.md')" data-target="about"><b>1</b> About</span>
+            <span onclick="switchTab('projects', 'kubectl get projects')" data-target="projects"><b>2</b>
+                Projects</span>
+            <span onclick="switchTab('contact', 'cat contact.yaml')" data-target="contact"><b>3</b> Contact</span>
+        </div>
+    </header>
+
+    <main>
+        <div id="about" class="section active">
+            <h1>whoami.md</h1>
+            <p>Hi! I'm Fabio, a SysAdmin, DevOps Engineer, and Solution Architect.</p>
+            <p>I specialize in designing, deploying, and maintaining robust infrastructures, seamlessly bridging the gap
+                between traditional on-premise environments and modern distributed systems.
+                While I am comfortable working across the entire spectrum, my core expertise and daily focus are heavily
+                rooted in Cloud architectures.</p>
+            <p>Under the hood, I am deeply fascinated by the efficiency of ARM architectures and I am a proud, absolute
+                Arch Linux enthusiast (and yes, I use Arch, btw). Welcome to my interactive terminal space.
+                Feel free to explore my workloads and configurations using the shortcuts above.</p>
+            <p>This space is fully interactive. You can navigate using the top menu, by clicking on the tabs, or by
+                directly pressing the number keys <b style="color:var(--yellow)">[1]</b>, <b
+                    style="color:var(--yellow)">[2]</b>, or <b style="color:var(--yellow)">[3]</b> on your keyboard (if
+                you have one!).</p>
+
+            <p style="color: var(--magenta); margin-top: 30px; font-weight: bold;">$ tree ./tech-stack</p>
+            <div class="tree">
+                <div class="tree-item"><span class="tree-branch">./tech-stack</span></div>
+                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Microservices</span>
+                </div>
+                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Go / Python / Rust
+                        / Node.js</span></div>
+                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">DevOps</span></div>
+                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Kubernetes /
+                        Docker / GitHub Actions / Terraform / Terragrunt / Pulumi / Jenkins / Concourse / Ansible /
+                        Tekton / ArgoCD / Flux / ESO / CSI Driver Injection</span></div>
+                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Kube
+                        Controllers</span></div>
+                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Kopf / Go</span>
+                </div>
+                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Repo</span></div>
+                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Github / Gitea /
+                        Gitlab</span></div>
+                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Secret
+                        Managers</span></div>
+                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">AWS SecretsManager
+                        / Infisical / Hashicorp Vault</span></div>
+                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Cloud
+                        Providers</span></div>
+                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">GCP / Azure /
+                        AWS</span></div>
+                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">DB</span></div>
+                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">MongoDB / NoSQL /
+                        PostgreSQL / MySQL</span></div>
+                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">OS</span></div>
+                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Windows 95+ /
+                        Debian / Ubuntu / Arch / Fedora / RedHat</span></div>
+                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Idp</span>
+                </div>
+                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Cloud
+                        Organizations
+                        / Authentik / Keycloak</span></div>
+                <div class="tree-item"><span class="tree-branch">└──</span> <span class="tree-node">Other
+                        Skills</span>
+                </div>
+                <div class="tree-item"><span class="tree-branch"> └──</span> <span class="tree-leaf">FinOps / Karpenter
+                        / Hybrid Integration Test / SAST / DAST / SCA / Platform Engineering</span></div>
+            </div>
+        </div>
+
+        <div id="projects" class="section">
+            <h1>kubectl get projects -n my-projects</h1>
+            <p>Fetching resources from cluster... 2 workloads found.</p>
+
+            <div class="log-container">
+                <div class="log-table">
+                    <div class="log-header">
+                        <span>NAME</span>
+                        <span>STATUS</span>
+                        <span>READY</span>
+                        <span>STACK</span>
+                        <span>DETAILS</span>
+                        <span>ENDPOINT</span>
+                    </div>
+
+                    <div class="log-row">
+                        <span>term-portfolio</span>
+                        <span class="status-running">Running</span>
+                        <span>1/1</span>
+                        <span>HTML/CSS</span>
+                        <span>Interactive terminal-based CV instance.</span>
+                        <span><a href="https://github.com/Costa-exe/costa-exe.github.io"
+                                target="_blank">[Repo]</a></span>
+                    </div>
+
+                    <div class="log-row">
+                        <span>aur-taw</span>
+                        <span class="status-running">Running</span>
+                        <span>1/1</span>
+                        <span>BASH</span>
+                        <span>Simple opt-in powerful AUR helper.</span>
+                        <span><a href="https://github.com/Costa-exe/aur-taw" target="_blank">[Repo]</a></span>
+                    </div>
+
+                    <div class="log-row" style="opacity: 0.7;">
+                        <span>getting-rich-playing-tekken</span>
+                        <span class="status-terminated">Terminated</span>
+                        <span>0/0</span>
+                        <span>Arcade-Stick</span>
+                        <span>couldn't get good enough.</span>
+                        <span>[N/A]</span>
+                    </div>
+
+                    <div class="log-row">
+                        <span>restoring-old-hardwares</span>
+                        <span class="status-pending">Pending</span>
+                        <span>0/2</span>
+                        <span>Screwdrivers/old_gameboys</span>
+                        <span>from time to time.</span>
+                        <span>[Internal]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="contact" class="section">
+            <h1>contact.yaml</h1>
+            <p>The server is listening. You can reach out to me via the following endpoints:</p>
+            <pre>
+<span style="color: var(--cyan)">contact_info:</span>
+  <span style="color: var(--magenta)">name:</span> "Fabio"
+  <span style="color: var(--magenta)">last_name:</span> "Cosentino"
+  <span style="color: var(--magenta)">email:</span> "fcosentino.dev@gmail.com"
+  <span style="color: var(--magenta)">github:</span> "<a href="https://github.com/Costa-exe" target="_blank">github.com/Costa-exe</a>"
+  <span style="color: var(--magenta)">linkedin:</span> "<a href="https://linkedin.com" target="_blank">https://www.linkedin.com/in/fabio-cosentino-4b9178170/</a>"
+  <span style="color: var(--magenta)">telegram:</span> "@Costa__exe"
+  <span style="color: var(--magenta)">discord:</span> "costa.exe"
+  <span style="color: var(--magenta)">website:</span> "<a href="#" target="_blank">https://costa-exe.github.io/</a>"
+<span style="color: var(--cyan)">location:</span>
+  <span style="color: var(--magenta)">city:</span> "Gasperina"
+  <span style="color: var(--magenta)">country:</span> "Italy"
+  <span style="color: var(--magenta)">timezone:</span> "UTC+1 (CET)"
+  <span style="color: var(--magenta)">remote_friendly:</span> true
+<span style="color: var(--cyan)">personal_interests:</span>
+  <span style="color: var(--magenta)">favorite_dish:</span> "Parmigiana"
+  <span style="color: var(--magenta)">pets:</span>
+    <span style="color: var(--magenta)">cat:</span> true
+    <span style="color: var(--magenta)">dog:</span> false
+  <span style="color: var(--magenta)">favorite_sport:</span> "Football"
+  <span style="color: var(--magenta)">supported_teams:</span>
+    - "AC Milan"
+    - "US Catanzaro"
+  <span style="color: var(--magenta)">top_5_movies:</span>
+    - "Django Unchained"
+    - "Rocky (Just The First One)"
+    - "Dragon Ball Z - Fusion Reborn"
+    - "Spiderman 2 (Sam Raimi)"
+    - "Who Framed Roger Rabbit"
+  <span style="color: var(--magenta)">top_5_video_games:</span>
+    - "Metal Gear Solid 2"
+    - "Bully: Scholarship Edition"
+    - "Batman: Arkham City"
+    - "Prince of Persia: Warrior Within"
+    - "Dragon Ball Z Budokai 3"
+<span style="color: var(--cyan)">preferences:</span>
+  <span style="color: var(--magenta)">OS:</span> "Linux-based OS" <span style="color: var(--light-gray);"># usually Ubuntu for work</span>
+  <span style="color: var(--magenta)">Vendor:</span> "Lenovo"
+  <span style="color: var(--magenta)">languages:</span>
+    - "Italian (Native)"
+    - "English (Fluent)"
+<span style="color: var(--cyan)">Work:</span>
+  <span style="color: var(--magenta)">Company:</span> "Digitality Consulting"
+  <span style="color: var(--magenta)">Myself:</span> "The Man Himself"
+<span style="color: var(--cyan)">status:</span>
+  <span style="color: var(--magenta)">hiring:</span> false
+  <span style="color: var(--magenta)">message:</span> "Not available for freelance projects or full-time positions."
+  <span style="color: var(--magenta)">coffee_meetings:</span> "Always accepted ☕"</pre>
+        </div>
+    </main>
+
+    <footer>
+        <span class="prompt">guest@user<span class="path">:~</span>$</span>
+        <span id="cmd-echo"></span><span class="cursor"></span>
+    </footer>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('en-GB');
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        const cmdEcho = document.getElementById('cmd-echo');
+
+        const idleCommands = {
+            'about': [
+                "neofetch",
+                "uname -r",
+                "pacman -Syu",
+                "uptime",
+                "cat ~/.bashrc"
+            ],
+            'projects': [
+                "kubectl top nodes",
+                "git push --force origin main",
+                "docker system prune -a -f",
+                "terraform apply -auto-approve",
+                "tail -f /var/log/syslog"
+            ],
+            'contact': [
+                "kubectl get parmigiana -n kitchen",
+                "ping -c 4 linkedin.com",
+                "curl -X POST https://api.coffee.com/brew",
+                "ssh admin@matrix-server",
+                "nmap -sS localhost"
+            ]
+        };
+
+        let currentPhrase = "";
+        let phraseIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        let isIdleMode = true;
+        let typewriterTimeout;
+        let currentTabId = 'about';
+
+        function doTypewriter() {
+            if (isIdleMode && currentPhrase === "") {
+                const commands = idleCommands[currentTabId];
+                currentPhrase = commands[phraseIdx % commands.length];
+            }
+
+            if (!isDeleting && charIdx <= currentPhrase.length) {
+                cmdEcho.innerText = currentPhrase.substring(0, charIdx);
+                charIdx++;
+                let typeSpeed = 50 + Math.random() * 50;
+
+                if (charIdx > currentPhrase.length) {
+                    isDeleting = true;
+                    typewriterTimeout = setTimeout(doTypewriter, 3000);
+                } else {
+                    typewriterTimeout = setTimeout(doTypewriter, typeSpeed);
+                }
+            } else if (isDeleting && charIdx >= 0) {
+                cmdEcho.innerText = currentPhrase.substring(0, charIdx);
+                charIdx--;
+
+                if (charIdx < 0) {
+                    isDeleting = false;
+                    currentPhrase = "";
+
+                    if (isIdleMode) {
+                        const commands = idleCommands[currentTabId];
+                        phraseIdx = (phraseIdx + 1) % commands.length;
+                        typewriterTimeout = setTimeout(doTypewriter, 800);
+                    }
+                } else {
+                    typewriterTimeout = setTimeout(doTypewriter, 25);
+                }
+            }
+        }
+
+        function switchTab(tabId, commandText) {
+            clearTimeout(typewriterTimeout);
+            isIdleMode = false;
+            isDeleting = false;
+            currentPhrase = commandText;
+            charIdx = 0;
+            currentTabId = tabId;
+
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.shortcuts span').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            const targetBtn = document.querySelector(`[data-target="${tabId}"]`);
+            if (targetBtn) targetBtn.classList.add('active');
+
+            function typeCommandFast() {
+                if (charIdx <= currentPhrase.length) {
+                    cmdEcho.innerText = currentPhrase.substring(0, charIdx);
+                    charIdx++;
+                    setTimeout(typeCommandFast, 20);
+                } else {
+                    setTimeout(() => {
+                        isDeleting = true;
+                        isIdleMode = true;
+                        const commands = idleCommands[currentTabId];
+                        phraseIdx = Math.floor(Math.random() * commands.length);
+                        doTypewriter();
+                    }, 6000);
+                }
+            }
+            typeCommandFast();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '1') switchTab('about', 'cat whoami.md');
+            if (e.key === '2') switchTab('projects', 'kubectl get projects');
+            if (e.key === '3') switchTab('contact', 'cat contact.yaml');
+        });
+
+        window.onload = () => {
+            switchTab('about', 'cat whoami.md');
+        };
+    </script>
+</body>
+
+</html>
