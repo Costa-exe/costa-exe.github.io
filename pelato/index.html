@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Only The Bald - Tekken 8 Tournament</title>
+    <title>OTB - Idol Showdown Tournament</title>
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,13 +16,21 @@
 
     <style>
         :root {
-            /* Palette moderna e dark */
-            --bg-dark: #030305;
-            --text-main: #e0e0e0;
-            --neon-blue: #00D2FF;
-            --neon-pink: #FF0055;
-            --glass-bg: rgba(15, 15, 20, 0.3);
-            --glass-border: rgba(255, 255, 255, 0.05);
+            /* Palette Pastel dalla locandina */
+            --bg-pink: #ffd9e8;
+            /* Sfondo rosa chiaro */
+            --grid-line: rgba(255, 255, 255, 0.7);
+            /* Griglia bianca */
+            --text-main: #5a5a7a;
+            /* Testo leggibile scuro */
+            --pastel-blue: #86b4f8;
+            /* Blu dei riquadri */
+            --pastel-yellow: #f8c858;
+            /* Giallo stelle/testo */
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            /* Effetto vetro chiaro */
+            --glass-border: rgba(134, 180, 248, 0.5);
+            /* Bordo azzurro */
         }
 
         * {
@@ -34,11 +42,12 @@
         body {
             font-family: 'Rajdhani', sans-serif;
             color: var(--text-main);
-            background-color: var(--bg-dark);
-            /* Luci ambientali leggerissime agli angoli, sfondo quasi totalmente nero */
+            background-color: var(--bg-pink);
+            /* Pattern a griglia stile quaderno basato sulla locandina */
             background-image:
-                radial-gradient(circle at 0% 0%, rgba(0, 210, 255, 0.03) 0%, transparent 40%),
-                radial-gradient(circle at 100% 100%, rgba(255, 0, 85, 0.03) 0%, transparent 40%);
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
             background-attachment: fixed;
             line-height: 1.6;
             overflow-x: hidden;
@@ -57,16 +66,15 @@
             top: 0;
             left: 0;
             width: 45vw;
-            /* Occupa quasi metà schermo */
             height: 100vh;
-            /* Inserisci qui l'URL della tua immagine */
-            background-image: url('./Gemini_Generated_Image_v008vtv008vtv008.png');
+            /* Lasciato inalterato come richiesto */
+            background-image: url('./Gemini_Generated_Image_fneicdfneicdfnei.jpeg');
             background-size: cover;
             background-position: left center;
             background-repeat: no-repeat;
-            opacity: 0.25;
+            opacity: 0.15;
+            /* Abbassato leggermente per non sporcare il tema chiaro */
             z-index: 1;
-            /* Sfuma l'immagine verso destra per fonderla col buio */
             -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
             mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
         }
@@ -77,7 +85,6 @@
             z-index: 10;
             display: flex;
             justify-content: flex-end;
-            /* Spinge il contenuto verso destra */
             min-height: 100vh;
         }
 
@@ -86,10 +93,6 @@
             max-width: 850px;
             padding: 4rem 2rem;
             margin-right: max(2rem, 5vw);
-            /* Lascia spazio dal bordo destro */
-            backdrop-filter: blur(10px);
-            /* Leggerissimo effetto vetro dietro il testo */
-            -webkit-backdrop-filter: blur(10px);
         }
 
         /* --- HEADER --- */
@@ -99,93 +102,93 @@
         }
 
         .title {
-            font-size: 5rem;
+            font-size: 4.5rem;
             font-weight: 900;
-            line-height: 1;
+            line-height: 1.1;
             letter-spacing: 2px;
-            color: #fff;
-            text-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
+            color: #ffffff;
+            /* Effetto ombra spessa azzurra come il titolo "idol showdown" */
+            text-shadow:
+                -3px -3px 0 var(--pastel-blue),
+                3px -3px 0 var(--pastel-blue),
+                -3px 3px 0 var(--pastel-blue),
+                3px 3px 0 var(--pastel-blue),
+                0 5px 15px rgba(134, 180, 248, 0.4);
             margin-bottom: 0.5rem;
         }
 
         .slogan {
             font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--pastel-yellow);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
-        /* --- SEZIONI CONTENUTO (Senza riquadri) --- */
+        /* --- SEZIONI CONTENUTO --- */
         section {
             margin-bottom: 4rem;
             position: relative;
         }
 
-        /* Linea neon decorativa a sinistra del contenuto */
+        /* Linea decorativa a sinistra aggiornata ai colori pastel */
         .neon-line-left {
-            border-left: 2px solid var(--neon-blue);
-            padding-left: 2rem;
+            border-left: 4px solid var(--pastel-blue);
+            padding-left: 1.5rem;
             position: relative;
-        }
-
-        .neon-line-left::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -4px;
-            width: 6px;
-            height: 20px;
-            background: var(--neon-blue);
-            box-shadow: 0 0 10px var(--neon-blue);
+            background: rgba(255, 255, 255, 0.5);
+            padding: 1.5rem;
+            border-radius: 0 15px 15px 0;
         }
 
         .section-title {
-            font-size: 2.2rem;
-            color: #fff;
+            font-size: 1.5rem;
+            color: #ffffff;
+            background-color: var(--pastel-blue);
+            display: inline-block;
+            padding: 0.3rem 1.2rem;
+            border-radius: 20px;
             margin-bottom: 1.5rem;
             letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(134, 180, 248, 0.3);
         }
 
         .section-desc {
             font-size: 1.25rem;
-            color: #b0b0c0;
-            margin-bottom: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
             max-width: 600px;
+            font-weight: 500;
         }
 
         /* --- LISTA REGOLE --- */
         .rules-list {
             list-style: none;
-            font-size: 1.15rem;
+            font-size: 1.3rem;
         }
 
         .rules-list li {
-            margin-bottom: 1.5rem;
-            padding-left: 2.5rem;
+            margin-bottom: 1rem;
+            padding-left: 2rem;
             position: relative;
-            color: #d0d0e0;
+            color: var(--pastel-blue);
+            font-weight: 700;
         }
 
         .rules-list li::before {
-            content: '';
+            content: '⭐';
+            /* Stella in stile locandina */
             position: absolute;
             left: 0;
-            top: 6px;
-            width: 12px;
-            height: 12px;
-            background: var(--neon-pink);
-            transform: rotate(45deg);
-            box-shadow: 0 0 8px var(--neon-pink);
+            top: 0;
+            font-size: 1.2rem;
         }
 
         .highlight {
-            color: #fff;
-            font-weight: 700;
+            color: #444;
             font-family: 'Orbitron', sans-serif;
             letter-spacing: 1px;
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
         /* --- GRIGLIA DETTAGLI EVENTO --- */
@@ -198,29 +201,32 @@
 
         .detail-item {
             background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-top: 1px solid rgba(0, 210, 255, 0.2);
+            border: 2px solid var(--pastel-blue);
             padding: 1.5rem;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
         }
 
         .detail-item:hover {
             transform: translateY(-5px);
-            border-top: 1px solid var(--neon-blue);
-            background: rgba(15, 15, 20, 0.5);
+            box-shadow: 0 12px 25px rgba(134, 180, 248, 0.2);
         }
 
         .detail-item h3 {
             font-size: 1rem;
-            color: var(--neon-blue);
+            color: var(--pastel-blue);
             margin-bottom: 0.5rem;
+            background: rgba(134, 180, 248, 0.1);
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 10px;
         }
 
         .detail-item p {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            color: #fff;
+            color: #333;
         }
 
         /* --- PULSANTE MODERN --- */
@@ -236,55 +242,31 @@
             text-decoration: none;
             color: #fff;
             padding: 1rem 2.5rem;
-            border-radius: 4px;
-            background: rgba(255, 0, 85, 0.1);
-            border: 1px solid var(--neon-pink);
+            border-radius: 30px;
+            /* Arrotondato per il tema kawaii */
+            background: var(--pastel-blue);
+            border: 3px solid #fff;
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: all 0.5s ease;
+            box-shadow: 0 8px 15px rgba(134, 180, 248, 0.4);
         }
 
         .btn:hover {
-            background: var(--neon-pink);
-            box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
-            transform: scale(1.02);
-        }
-
-        .btn:hover::before {
-            left: 100%;
+            background: #6a9ce8;
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 12px 20px rgba(134, 180, 248, 0.6);
         }
 
         /* --- MODULO CHALLONGE GLASSMORPHISM --- */
         .bracket-glass-container {
             background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
+            border: 2px solid var(--pastel-blue);
+            border-radius: 15px;
             padding: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             position: relative;
-        }
-
-        .bracket-glass-container::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 10%;
-            right: 10%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--neon-pink), transparent);
         }
 
         iframe {
@@ -309,27 +291,20 @@
             #bg-subject {
                 width: 100vw;
                 opacity: 0.1;
-                /* Sfuma sia a destra che in basso su mobile */
                 -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 70%);
                 mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 70%);
                 background-position: center top;
             }
 
             .title {
-                font-size: 3.5rem;
-            }
-
-            .slogan {
-                font-size: 1.2rem;
+                font-size: 3rem;
             }
 
             .neon-line-left {
                 border-left: none;
-                padding-left: 0;
-            }
-
-            .neon-line-left::before {
-                display: none;
+                background: var(--glass-bg);
+                border: 2px solid var(--pastel-blue);
+                border-radius: 15px;
             }
         }
     </style>
@@ -337,7 +312,7 @@
 
 <body>
 
-    <!-- IMMAGINE SOGGETTO SULLO SFONDO (Trasparente e sfumata) -->
+    <!-- IMMAGINE SOGGETTO SULLO SFONDO -->
     <div id="bg-subject">
     </div>
 
@@ -345,28 +320,20 @@
         <main class="content-container">
 
             <header>
-                <h1 class="title">ONLY THE<br>BALD</h1>
-                <div class="slogan">BE THE BEST, BE THE BALD</div>
+                <div class="slogan">OTB PRESENTA</div>
+                <h1 class="title">IDOL<br>SHOWDOWN<br><span style="font-size: 2rem;">TOURNAMENT</span></h1>
             </header>
 
             <!-- SEZIONE REGOLE E MAESTRO -->
             <section>
                 <div class="neon-line-left">
-                    <h2 class="section-title">IL POTERE DI ESSERE PELATO</h2>
-                    <p class="section-desc">
-                        L'aerodinamica è la chiave del successo. Più liscio sei, più veloce colpisci.
-                        Unisciti alla fratellanza lucida seguendo gli insegnamenti del Maestro.
-                    </p>
-
-                    <h3 style="color: var(--neon-blue); font-size: 1.3rem; margin-bottom: 1rem;">LE REGOLE DEL MAESTRO
-                        SERGIOZ (OSS!)</h3>
+                    <h2 class="section-title">REGOLA PRINCIPALE</h2>
                     <ul class="rules-list">
-                        <li><span class="highlight">IL CAMPIONE</span> Puoi utilizzare <strong>SOLO ED ESCLUSIVAMENTE
-                                Steve Fox</strong>. Nessun'altra scelta è ammessa.</li>
-                        <li><span class="highlight">ESPERIENZA</span> Nessuna esperienza richiesta. Solo tanta
-                            determinazione.</li>
-                        <li><span class="highlight">SPIRITO</span> Nessun rispetto per l'avversario e sempre OSS!</li>
+                        <li>NESSUNO DEVE SAPER GIOCARE</li>
                     </ul>
+                    <p class="section-desc" style="margin-top: 1rem; margin-bottom: 0;">
+                        Preparatevi al caos.
+                    </p>
                 </div>
             </section>
 
@@ -377,17 +344,19 @@
                 <div class="event-grid">
                     <div class="detail-item">
                         <h3>DATA E ORA</h3>
-                        <p>01 / 08 - ORE 22:00</p>
+                        <p>12.09.2026</p>
+                        <p style="font-size: 1rem; color: var(--text-main);">INIZIO 20:00</p>
                     </div>
                     <div class="detail-item">
-                        <h3>COMMENTO IRL</h3>
-                        <p>SERGIOZ & VICTORFAN</p>
+                        <h3>CASTER & LIVE</h3>
+                        <p style="font-size: 1.1rem; padding-top: 5px;">sergioz • leobru • lallawaffle</p>
+                        <p style="font-size: 1rem; color: var(--pastel-blue); margin-top: 5px;">▶ LIVE TWITCH</p>
                     </div>
                 </div>
 
                 <div class="btn-wrapper">
                     <!-- LINK ISCRIZIONE CHALLONGE -->
-                    <a href="https://challonge.com/it/OTB_OnlyTheBald" target="_blank" class="btn">
+                    <a href="https://challonge.com/it/Lista_community_Sergio" target="_blank" class="btn">
                         ISCRIVITI SU CHALLONGE
                     </a>
                 </div>
@@ -395,10 +364,11 @@
 
             <!-- SEZIONE TABELLONE CHALLONGE -->
             <section>
-                <h2 class="section-title" style="margin-top: 3rem;">TABELLONE DEL TORNEO</h2>
+                <h2 class="section-title" style="margin-top: 1rem;">TABELLONE DEL TORNEO</h2>
                 <div class="bracket-glass-container">
                     <!-- IFRAME TABELLONE -->
-                    <iframe src="https://challonge.com/it/OTB_OnlyTheBald/module" allowtransparency="true"></iframe>
+                    <iframe src="https://challonge.com/it/Lista_community_Sergio/module" width="100%" height="500"
+                        frameborder="0" scrolling="auto" allowtransparency="true"></iframe>
                 </div>
             </section>
 
