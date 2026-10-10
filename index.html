@@ -1,686 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Term-Portfolio | tty Mode</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23131421%22/><text x=%2215%22 y=%2265%22 font-family=%22monospace%22 font-size=%2250%22 font-weight=%22bold%22 fill=%22%239ece6a%22>%3E_</text></svg>">
-
-    <style>
-        :root {
-            --bg-color: #131421;
-            --main-bg: #0b0b14;
-            --text-color: #a9b1d6;
-            --cyan: #7dcfff;
-            --green: #9ece6a;
-            --yellow: #e0af68;
-            --magenta: #bb9af7;
-            --blue: #7aa2f7;
-            --red: #f7768e;
-            --dark-gray: #232433;
-            --light-gray: #303348;
-            --cursor-bg: #bb9af7;
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            scrollbar-width: thin;
-            scrollbar-color: var(--light-gray) var(--bg-color);
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-color);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background-color: var(--light-gray);
-            border-radius: 4px;
-            border: 1px solid var(--bg-color);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background-color: var(--magenta);
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
-            margin: 0;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            font-size: 14px;
-            overflow: hidden;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            flex-shrink: 0;
-        }
-
-        .sys-info {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .sys-info span {
-            color: var(--text-color);
-        }
-
-        .sys-info b {
-            color: var(--magenta);
-            font-weight: bold;
-        }
-
-        #clock {
-            color: var(--cyan);
-            font-weight: bold;
-        }
-
-        .shortcuts {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .shortcuts span {
-            cursor: pointer;
-            padding: 2px 8px;
-            border-radius: 3px;
-            transition: all 0.2s ease;
-            user-select: none;
-        }
-
-        .shortcuts span b {
-            color: var(--cyan);
-            background: var(--dark-gray);
-            padding: 1px 6px;
-            border-radius: 2px;
-            margin-right: 6px;
-        }
-
-        .shortcuts span.active {
-            background-color: var(--magenta);
-            color: #000;
-            font-weight: bold;
-        }
-
-        .shortcuts span.active b {
-            color: #000;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        main {
-            flex-grow: 1;
-            overflow-y: auto;
-            border: 1px solid var(--dark-gray);
-            background: var(--main-bg);
-            padding: 20px;
-            border-radius: 6px;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .section {
-            display: none;
-            animation: fadeIn 0.25s ease-out;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(2px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h1 {
-            color: var(--green);
-            margin-top: 0;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border-bottom: 1px dashed var(--dark-gray);
-            padding-bottom: 10px;
-            display: inline-block;
-        }
-
-        h1::before {
-            content: "❯ ";
-            color: var(--magenta);
-        }
-
-        p {
-            line-height: 1.6;
-            margin: 0 0 15px 0;
-        }
-
-        .tree {
-            font-family: 'JetBrains Mono', monospace;
-            line-height: 1.6;
-            margin: 15px 0 25px 0;
-            color: var(--text-color);
-        }
-
-        .tree-item {
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .tree-branch {
-            color: var(--light-gray);
-            white-space: pre;
-            margin-right: 8px;
-            user-select: none;
-        }
-
-        .tree-node {
-            color: var(--cyan);
-            font-weight: bold;
-        }
-
-        .tree-leaf {
-            color: var(--text-color);
-            word-break: break-word;
-        }
-
-        a {
-            color: var(--blue);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: all 0.2s;
-        }
-
-        a:hover {
-            color: var(--cyan);
-            border-bottom: 1px solid var(--cyan);
-        }
-
-        .log-container {
-            width: 100%;
-            overflow-x: auto;
-            background: var(--bg-color);
-            border: 1px solid var(--dark-gray);
-            border-radius: 6px;
-            padding: 15px;
-            margin-top: 15px;
-            white-space: nowrap;
-        }
-
-        .log-table {
-            min-width: 900px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .log-header {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 2fr 4fr 1fr;
-            gap: 15px;
-            color: var(--magenta);
-            text-transform: uppercase;
-            font-weight: bold;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed var(--light-gray);
-            margin-bottom: 8px;
-        }
-
-        .log-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 2fr 4fr 1fr;
-            gap: 15px;
-            padding: 6px 4px;
-            transition: background 0.1s;
-        }
-
-        .log-row:hover {
-            background-color: var(--dark-gray);
-        }
-
-        .log-row span {
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .status-running {
-            color: var(--green);
-        }
-
-        .status-pending {
-            color: var(--yellow);
-        }
-
-        .status-terminated {
-            color: var(--red);
-        }
-
-        .status-unknown {
-            color: var(--light-gray);
-        }
-
-        pre {
-            background: var(--bg-color);
-            border: 1px solid var(--dark-gray);
-            padding: 15px;
-            border-radius: 6px;
-            overflow-x: auto;
-            color: var(--yellow);
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        footer {
-            margin-top: 15px;
-            padding-top: 10px;
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-            flex-shrink: 0;
-            min-height: 30px;
-        }
-
-        .prompt {
-            color: var(--green);
-            margin-right: 10px;
-            user-select: none;
-        }
-
-        .prompt .path {
-            color: var(--blue);
-        }
-
-        #cmd-echo {
-            color: var(--text-color);
-            white-space: pre;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 16px;
-            background-color: var(--cursor-bg);
-            animation: blink 0.8s step-end infinite;
-            margin-left: 2px;
-            vertical-align: middle;
-        }
-
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                overflow-y: auto;
-                height: auto;
-            }
-
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-
-            .shortcuts {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            main {
-                overflow-y: visible;
-                padding: 15px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#0c0f16">
+  <meta name="description" content="Fabio Cosentino — SysAdmin, DevOps Engineer & Solution Architect. An interactive terminal for my cloud infrastructure skills, projects, and life beyond the command line.">
+  <title>Fabio Cosentino — terminal</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
-
 <body>
+  <a class="skip-link" href="#command-input">Skip to command prompt</a>
+  <header class="terminal-bar">
+    <div class="terminal-title"><span class="connection-dot" aria-hidden="true"></span><span>fabio<span class="dim">@</span>portfolio<span class="dim">: ~</span></span><span class="terminal-title-note">a personal terminal</span></div>
+    <div class="terminal-controls"><button id="motion-toggle" type="button" aria-pressed="true" title="Toggle typewriter animation">typing: on</button><span class="control-divider" aria-hidden="true">/</span><button id="fullscreen-toggle" type="button" aria-label="Enter fullscreen" title="Toggle fullscreen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button></div>
+  </header>
 
-    <header>
-        <div class="sys-info">
-            <span><b>Ctx:</b> fabio-dev-cluster</span>
-            <span><b>User:</b> guest@user</span>
-            <span id="clock">00:00:00</span>
-        </div>
-        <div class="shortcuts" id="nav-menu">
-            <span onclick="switchTab('about', 'cat whoami.md')" data-target="about"><b>1</b> About</span>
-            <span onclick="switchTab('projects', 'kubectl get projects')" data-target="projects"><b>2</b>
-                Projects</span>
-            <span onclick="switchTab('contact', 'cat contact.yaml')" data-target="contact"><b>3</b> Contact</span>
-        </div>
-    </header>
+  <main id="terminal-screen" class="terminal-screen" aria-label="Portfolio terminal" tabindex="-1">
+    <div class="terminal-session">
+      <div id="terminal-log" role="log" aria-label="Command history and output" aria-live="off" aria-busy="false"></div>
+      <div id="pager" class="pager" role="group" aria-label="More terminal output" hidden>
+        <span class="pager-label">-- more --</span><span id="pager-progress" class="pager-progress" aria-hidden="true"></span>
+        <button id="pager-next" type="button" aria-label="Continue to the next page of output">continue <kbd>Space / Enter</kbd><span class="pager-touch-hint" aria-hidden="true">↵</span></button>
+        <button id="pager-stop" type="button" aria-label="Stop the current output">quit <kbd>q</kbd></button>
+      </div>
+      <form id="command-form" class="command-form" autocomplete="off">
+        <div class="input-path" aria-hidden="true"><span class="prompt-user">guest<span class="prompt-at">@</span>fabio</span><span class="prompt-path">~</span><span class="prompt-branch">main</span></div>
+        <div class="input-line"><label for="command-input" class="prompt-sign"><span aria-hidden="true">❯</span><span class="sr-only">Terminal command</span></label><div class="input-field"><input id="command-input" name="command" type="text" placeholder="Type help to explore" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" enterkeyhint="send" aria-describedby="input-hints"><span class="idle-cursor" aria-hidden="true"></span></div><button class="submit-command" type="submit" aria-label="Run command">↵</button></div>
+        <span id="input-hints" class="input-hints">tab <span>complete</span><i>·</i> ↑↓ <span>history</span><i>·</i> ctrl+l <span>clear</span></span>
+      </form>
+    </div>
+  </main>
 
-    <main>
-        <div id="about" class="section active">
-            <h1>whoami.md</h1>
-            <p>Hi! I'm Fabio, a SysAdmin, DevOps Engineer, and Solution Architect.</p>
-            <p>I specialize in designing, deploying, and maintaining robust infrastructures, seamlessly bridging the gap
-                between traditional on-premise environments and modern distributed systems.
-                While I am comfortable working across the entire spectrum, my core expertise and daily focus are heavily
-                rooted in Cloud architectures.</p>
-            <p>Under the hood, I am deeply fascinated by the efficiency of ARM architectures and I am a proud, absolute
-                Arch Linux enthusiast (and yes, I use Arch, btw). Welcome to my interactive terminal space.
-                Feel free to explore my workloads and configurations using the shortcuts above.</p>
-            <p>This space is fully interactive. You can navigate using the top menu, by clicking on the tabs, or by
-                directly pressing the number keys <b style="color:var(--yellow)">[1]</b>, <b
-                    style="color:var(--yellow)">[2]</b>, or <b style="color:var(--yellow)">[3]</b> on your keyboard (if
-                you have one!).</p>
+  <div class="typing-status"><button id="skip-animation" type="button" hidden>skip typing <kbd>esc</kbd></button><span id="notice" role="status" aria-live="polite"></span></div>
+  <footer class="terminal-footer">
+    <div class="session-tag"><span class="connection-dot" aria-hidden="true"></span> portfolio</div>
+    <nav class="command-shortcuts" aria-label="Run a portfolio command"><button data-command="whoami" title="About Fabio">whoami</button><button data-command="projects" title="Projects">projects</button><button data-command="contact" title="Contact">contact</button><button data-command="stack" title="Tech stack">stack</button><button data-command="personal" title="Personal interests">personal</button><button data-command="help" class="help-shortcut">help</button></nav>
+    <div class="session-status"><span id="session-state">ready</span><span class="exit-code" title="Last command exit code">↵ <span id="last-exit">0</span></span><time id="clock">--:--</time><button id="clear-terminal" type="button" title="Clear terminal (Ctrl+L)">clear</button></div>
+  </footer>
+  <div id="announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-            <p style="color: var(--magenta); margin-top: 30px; font-weight: bold;">$ tree ./tech-stack</p>
-            <div class="tree">
-                <div class="tree-item"><span class="tree-branch">./tech-stack</span></div>
-                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Microservices</span>
-                </div>
-                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Go / Python / Rust
-                        / Node.js</span></div>
-                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">DevOps</span></div>
-                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Kubernetes /
-                        Docker / GitHub Actions / Terraform / Terragrunt / Pulumi / Jenkins / Concourse / Ansible /
-                        Tekton / ArgoCD / Flux / ESO / CSI Driver Injection</span></div>
-                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Kube
-                        Controllers</span></div>
-                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Kopf / Go</span>
-                </div>
-                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Repo</span></div>
-                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Github / Gitea /
-                        Gitlab</span></div>
-                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Secret
-                        Managers</span></div>
-                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">AWS SecretsManager
-                        / Infisical / Hashicorp Vault</span></div>
-                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Cloud
-                        Providers</span></div>
-                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">GCP / Azure /
-                        AWS</span></div>
-                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">DB</span></div>
-                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">MongoDB / NoSQL /
-                        PostgreSQL / MySQL</span></div>
-                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">OS</span></div>
-                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Windows 95+ /
-                        Debian / Ubuntu / Arch / Fedora / RedHat</span></div>
-                <div class="tree-item"><span class="tree-branch">├──</span> <span class="tree-node">Idp</span>
-                </div>
-                <div class="tree-item"><span class="tree-branch">│ └──</span> <span class="tree-leaf">Cloud
-                        Organizations
-                        / Authentik / Keycloak</span></div>
-                <div class="tree-item"><span class="tree-branch">└──</span> <span class="tree-node">Other
-                        Skills</span>
-                </div>
-                <div class="tree-item"><span class="tree-branch"> └──</span> <span class="tree-leaf">FinOps / Karpenter
-                        / Hybrid Integration Test / SAST / DAST / SCA / Platform Engineering / Auto Promoting for Images and Charts</span></div>
-            </div>
-        </div>
+  <template id="output-about">
+  <div class="fetch">
+    <pre class="ascii-logo" aria-hidden="true"> ______   ___   ____   ___   ___
+|  ____| / _ \ |  _ \ |_ _| / _ \
+| |__   | |_| || |_) | | | | | | |
+|  __|  |  _  ||  _ &lt;  | | | | | |
+| |     | | | || |_) | | | | |_| |
+|_|     |_| |_||____/ |___| \___/</pre>
+    <div class="fetch-info">
+      <h1 class="fetch-name">Fabio Cosentino</h1>
+      <div class="fetch-rule" aria-hidden="true">----------------</div>
+      <dl class="fetch-specs">
+        <div><dt>Roles</dt><dd>SysAdmin / DevOps Engineer / Solution Architect</dd></div>
+        <div><dt>Focus</dt><dd>Cloud architectures</dd></div>
+        <div><dt>Work</dt><dd>Digitality Consulting</dd></div>
+        <div><dt>Location</dt><dd>Gasperina, Italy</dd></div>
+        <div><dt>OS</dt><dd>Linux-based OS <span class="token-comment"># usually Ubuntu for work</span></dd></div>
+        <div><dt>Interests</dt><dd>ARM architectures / Arch Linux</dd></div>
+        <div><dt>Languages</dt><dd>Italian (Native) / English (Fluent)</dd></div>
+      </dl>
+      <div class="ansi-palette" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+  </div>
+  <h2 class="output-heading">about / whoami.md</h2>
+  <div class="output-prose">
 
-        <div id="projects" class="section">
-            <h1>kubectl get projects -n my-projects</h1>
-            <p>Fetching resources from cluster... 2 workloads found.</p>
+    <p class="output-line">I specialize in designing, deploying, and maintaining robust infrastructures, bridging the gap between traditional on-premise environments and modern distributed systems. I am comfortable across the entire spectrum; my core expertise and daily focus are rooted in Cloud architectures.</p>
+    <p class="output-line">Under the hood, I am fascinated by the efficiency of ARM architectures and I am a proud Arch Linux enthusiast. And yes, I use Arch, btw.</p>
+  </div>
+  <p class="output-note"># Explore <button type="button" class="inline-command" data-command="stack">stack</button>, <button type="button" class="inline-command" data-command="projects">projects</button>, <button type="button" class="inline-command" data-command="personal">personal</button>, or <button type="button" class="inline-command" data-command="contact">contact</button>. Type <button type="button" class="inline-command" data-command="help">help</button> for all commands.</p>
+</template>
 
-            <div class="log-container">
-                <div class="log-table">
-                    <div class="log-header">
-                        <span>NAME</span>
-                        <span>STATUS</span>
-                        <span>READY</span>
-                        <span>STACK</span>
-                        <span>DETAILS</span>
-                        <span>ENDPOINT</span>
-                    </div>
+<template id="output-stack">
+<h2 class="output-heading">stack / tree ./tech-stack</h2>
+<div class="stack-tree"><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Microservices</h3><p class="stack-values">Go / Python / Rust / Node.js</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> DevOps</h3><p class="stack-values">Kubernetes / Docker / GitHub Actions / Terraform / Terragrunt / Pulumi / Jenkins / Concourse / Ansible / Tekton / ArgoCD / Flux / ESO / CSI Driver Injection</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Kube Controllers</h3><p class="stack-values">Kopf / Go</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Repo</h3><p class="stack-values">Github / Gitea / Gitlab</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Secret Managers</h3><p class="stack-values">AWS SecretsManager / Infisical / Hashicorp Vault</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Cloud Providers</h3><p class="stack-values">GCP / Azure / AWS</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> DB</h3><p class="stack-values">MongoDB / NoSQL / PostgreSQL / MySQL</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> OS</h3><p class="stack-values">Windows 95+ / Debian / Ubuntu / Arch / Fedora / RedHat</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Idp</h3><p class="stack-values">Cloud Organizations / Authentik / Keycloak</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">└──</span> Other Skills</h3><p class="stack-values">FinOps / Karpenter / Hybrid Integration Test / SAST / DAST / SCA / Platform Engineering / Auto Promoting for Images and Charts</p></div></div>
+<p class="output-note"># 10 categories / 50 technology entries</p>
+</template>
 
-                    <div class="log-row">
-                        <span>term-portfolio</span>
-                        <span class="status-running">Running</span>
-                        <span>1/1</span>
-                        <span>HTML/CSS</span>
-                        <span>Interactive terminal-based CV instance.</span>
-                        <span><a href="https://github.com/Costa-exe/costa-exe.github.io"
-                                target="_blank">[Repo]</a></span>
-                    </div>
+<template id="output-projects">
+<h2 class="output-heading">projects / kubectl get projects -n my-projects</h2>
+<p class="output-note"># 4 workloads found.</p>
+<div class="project-table-header" aria-hidden="true"><span>NAME</span><span>STATUS</span><span>READY</span><span>STACK</span><span>ENDPOINT</span></div>
+<div class="project-list"><article class="project-row">
+<h3 class="project-name">term-portfolio</h3>
+<span class="project-status running" data-label="Status">Running</span>
+<span class="project-ready" data-label="Ready">1/1</span>
+<span class="project-stack" data-label="Stack">HTML/CSS</span>
+<a class="project-endpoint" href="https://github.com/Costa-exe/costa-exe.github.io" target="_blank" rel="noopener noreferrer" aria-label="View term-portfolio repository">[Repo ↗]</a>
+<p class="project-description">Interactive terminal-based CV instance.</p>
+</article><article class="project-row">
+<h3 class="project-name">aur-taw</h3>
+<span class="project-status running" data-label="Status">Running</span>
+<span class="project-ready" data-label="Ready">1/1</span>
+<span class="project-stack" data-label="Stack">BASH</span>
+<a class="project-endpoint" href="https://github.com/Costa-exe/aur-taw" target="_blank" rel="noopener noreferrer" aria-label="View aur-taw repository">[Repo ↗]</a>
+<p class="project-description">Simple opt-in powerful AUR helper.</p>
+</article><article class="project-row">
+<h3 class="project-name">getting-rich-playing-tekken</h3>
+<span class="project-status terminated" data-label="Status">Terminated</span>
+<span class="project-ready" data-label="Ready">0/0</span>
+<span class="project-stack" data-label="Stack">Arcade-Stick</span>
+<span class="project-endpoint">[N/A]</span>
+<p class="project-description">couldn&#x27;t get good enough.</p>
+</article><article class="project-row">
+<h3 class="project-name">restoring-old-hardware</h3>
+<span class="project-status pending" data-label="Status">Pending</span>
+<span class="project-ready" data-label="Ready">0/2</span>
+<span class="project-stack" data-label="Stack">Screwdrivers/old_gameboys</span>
+<span class="project-endpoint">[Internal]</span>
+<p class="project-description">from time to time.</p>
+</article></div>
+<p class="output-note"># 2 / 4 running · 1 pending · 1 terminated</p>
+</template>
 
-                    <div class="log-row">
-                        <span>aur-taw</span>
-                        <span class="status-running">Running</span>
-                        <span>1/1</span>
-                        <span>BASH</span>
-                        <span>Simple opt-in powerful AUR helper.</span>
-                        <span><a href="https://github.com/Costa-exe/aur-taw" target="_blank">[Repo]</a></span>
-                    </div>
+<template id="output-contact">
+<h2 class="output-heading">contact / contact.yaml</h2>
+<p class="output-note"># The server is listening. Reach out via the following endpoints.</p>
+<div class="yaml-output"><section class="yaml-section"><h3>contact_info:</h3><dl class="yaml-fields"><div><dt>name:</dt><dd><span class="token-string">&quot;Fabio&quot;</span></dd></div><div><dt>last_name:</dt><dd><span class="token-string">&quot;Cosentino&quot;</span></dd></div><div><dt>email:</dt><dd><span class="token-string">&quot;<a href="mailto:fcosentino.dev@gmail.com">fcosentino.dev@gmail.com</a>&quot;</span> <button type="button" class="copy-button" data-copy="fcosentino.dev@gmail.com" aria-label="Copy email address">[copy]</button></dd></div><div><dt>github:</dt><dd><span class="token-string">&quot;<a href="https://github.com/Costa-exe" target="_blank" rel="noopener noreferrer">github.com/Costa-exe</a>&quot;</span></dd></div><div><dt>linkedin:</dt><dd><span class="token-string">&quot;<a href="https://www.linkedin.com/in/fabio-cosentino-4b9178170/" target="_blank" rel="noopener noreferrer">https://www.linkedin.com/in/fabio-cosentino-4b9178170/</a>&quot;</span></dd></div><div><dt>telegram:</dt><dd><span class="token-string">&quot;<a href="https://t.me/Costa__exe" target="_blank" rel="noopener noreferrer">@Costa__exe</a>&quot;</span></dd></div><div><dt>instagram:</dt><dd><span class="token-string">&quot;<a href="https://www.instagram.com/_costa.exe/" target="_blank" rel="noopener noreferrer">@_costa.exe</a>&quot;</span></dd></div><div><dt>discord:</dt><dd><span class="token-string">&quot;costa.exe&quot;</span> <button type="button" class="copy-button" data-copy="costa.exe" aria-label="Copy Discord username costa.exe">[copy]</button></dd></div><div><dt>website:</dt><dd><span class="token-string">&quot;<a href="https://costa-exe.github.io/" target="_blank" rel="noopener noreferrer">https://costa-exe.github.io/</a>&quot;</span></dd></div></dl></section><section class="yaml-section"><h3>location:</h3><dl class="yaml-fields"><div><dt>city:</dt><dd><span class="token-string">&quot;Gasperina&quot;</span></dd></div><div><dt>country:</dt><dd><span class="token-string">&quot;Italy&quot;</span></dd></div><div><dt>timezone:</dt><dd><span class="token-string">&quot;UTC+1 (CET)&quot;</span> <span class="token-comment"># UTC+2 (CEST) in summer</span></dd></div><div><dt>remote_friendly:</dt><dd><span class="token-bool">true</span></dd></div></dl></section><section class="yaml-section"><h3>Work:</h3><dl class="yaml-fields"><div><dt>Company:</dt><dd><span class="token-string">&quot;Digitality Consulting&quot;</span></dd></div><div><dt>Myself:</dt><dd><span class="token-string">&quot;The Man Himself&quot;</span></dd></div></dl></section><section class="yaml-section"><h3>status:</h3><dl class="yaml-fields"><div><dt>hiring:</dt><dd><span class="token-bool">false</span></dd></div><div><dt>message:</dt><dd><span class="token-string">&quot;Not available for freelance projects or full-time positions.&quot;</span></dd></div><div><dt>coffee_meetings:</dt><dd><span class="token-string">&quot;Always accepted ☕&quot;</span></dd></div></dl></section></div>
+</template>
 
-                    <div class="log-row" style="opacity: 0.7;">
-                        <span>getting-rich-playing-tekken</span>
-                        <span class="status-terminated">Terminated</span>
-                        <span>0/0</span>
-                        <span>Arcade-Stick</span>
-                        <span>couldn't get good enough.</span>
-                        <span>[N/A]</span>
-                    </div>
+<template id="output-personal">
+<h2 class="output-heading">personal / personal.yaml</h2>
+<div class="yaml-output"><section class="yaml-section"><h3>personal_interests:</h3><dl class="yaml-fields"><div><dt>favorite_dish:</dt><dd><span class="token-string">&quot;Parmigiana&quot;</span></dd></div><div><dt>pets:</dt><dd><dl class="yaml-fields"><div><dt>cat:</dt><dd><span class="token-bool">true</span></dd></div><div><dt>dog:</dt><dd><span class="token-bool">false</span></dd></div></dl></dd></div><div><dt>favorite_sport:</dt><dd><span class="token-string">&quot;Football&quot;</span></dd></div><div><dt>supported_teams:</dt><dd><ol class="yaml-sequence"><li><span class="token-string">&quot;AC Milan&quot;</span></li><li><span class="token-string">&quot;US Catanzaro&quot;</span></li></ol></dd></div><div><dt>top_5_movies:</dt><dd><ol class="yaml-sequence"><li><span class="token-string">&quot;Django Unchained&quot;</span></li><li><span class="token-string">&quot;Rocky (Just The First One)&quot;</span></li><li><span class="token-string">&quot;Dragon Ball Z - Fusion Reborn&quot;</span></li><li><span class="token-string">&quot;Spiderman 2 (Sam Raimi)&quot;</span></li><li><span class="token-string">&quot;Who Framed Roger Rabbit&quot;</span></li></ol></dd></div><div><dt>top_5_video_games:</dt><dd><ol class="yaml-sequence"><li><span class="token-string">&quot;Metal Gear Solid 2&quot;</span></li><li><span class="token-string">&quot;Bully: Scholarship Edition&quot;</span></li><li><span class="token-string">&quot;Batman: Arkham City&quot;</span></li><li><span class="token-string">&quot;Prince of Persia: Warrior Within&quot;</span></li><li><span class="token-string">&quot;Dragon Ball Z Budokai 3&quot;</span></li></ol></dd></div></dl></section><section class="yaml-section"><h3>preferences:</h3><dl class="yaml-fields"><div><dt>OS:</dt><dd><span class="token-string">&quot;Linux-based OS&quot;</span> <span class="token-comment"># usually Ubuntu for work</span></dd></div><div><dt>Vendor:</dt><dd><span class="token-string">&quot;Lenovo&quot;</span></dd></div><div><dt>languages:</dt><dd><ol class="yaml-sequence"><li><span class="token-string">&quot;Italian (Native)&quot;</span></li><li><span class="token-string">&quot;English (Fluent)&quot;</span></li></ol></dd></div></dl></section></div>
+</template>
 
-                    <div class="log-row">
-                        <span>restoring-old-hardware</span>
-                        <span class="status-pending">Pending</span>
-                        <span>0/2</span>
-                        <span>Screwdrivers/old_gameboys</span>
-                        <span>from time to time.</span>
-                        <span>[Internal]</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+<template id="output-help">
+<h2 class="output-heading">help / available commands</h2>
+<div class="help-list"><div><button type="button" class="inline-command" data-command="whoami">whoami</button><span class="help-description">About Fabio · cat whoami.md</span></div><div><button type="button" class="inline-command" data-command="stack">stack</button><span class="help-description">All technologies · tree ./tech-stack</span></div><div><button type="button" class="inline-command" data-command="projects">projects</button><span class="help-description">All four workloads · kubectl get projects -n my-projects</span></div><div><button type="button" class="inline-command" data-command="contact">contact</button><span class="help-description">Contact endpoints, location, work, and availability · cat contact.yaml</span></div><div><button type="button" class="inline-command" data-command="personal">personal</button><span class="help-description">Interests and preferences · cat personal.yaml</span></div><div><button type="button" class="inline-command" data-command="help">help</button><span class="help-description">Show this command reference</span></div><div><button type="button" class="inline-command" data-command="clear">clear</button><span class="help-description">Clear the terminal</span></div></div>
+<p class="output-note"># ↑ / ↓ command history · Tab autocomplete · Ctrl+L clear · Esc finish this page</p>
+<p class="output-note"># Long output pauses at the screen edge. Space / Enter continues; q stops.</p>
+<p class="output-note"># Click a command or type it below. This portfolio shell runs locally in your browser.</p>
+</template>
 
-        <div id="contact" class="section">
-            <h1>contact.yaml</h1>
-            <p>The server is listening. You can reach out to me via the following endpoints:</p>
-            <pre>
-<span style="color: var(--cyan)">contact_info:</span>
-  <span style="color: var(--magenta)">name:</span> "Fabio"
-  <span style="color: var(--magenta)">last_name:</span> "Cosentino"
-  <span style="color: var(--magenta)">email:</span> "fcosentino.dev@gmail.com"
-  <span style="color: var(--magenta)">github:</span> "<a href="https://github.com/Costa-exe" target="_blank">github.com/Costa-exe</a>"
-  <span style="color: var(--magenta)">linkedin:</span> "<a href="https://linkedin.com" target="_blank">https://www.linkedin.com/in/fabio-cosentino-4b9178170/</a>"
-  <span style="color: var(--magenta)">telegram:</span> "@Costa__exe"
-  <span style="color: var(--magenta)">instagram:</span> "@_costa.exe"
-  <span style="color: var(--magenta)">discord:</span> "costa.exe"
-  <span style="color: var(--magenta)">website:</span> "<a href="#" target="_blank">https://costa-exe.github.io/</a>"
-<span style="color: var(--cyan)">location:</span>
-  <span style="color: var(--magenta)">city:</span> "Gasperina"
-  <span style="color: var(--magenta)">country:</span> "Italy"
-  <span style="color: var(--magenta)">timezone:</span> "UTC+1 (CET)"
-  <span style="color: var(--magenta)">remote_friendly:</span> true
-<span style="color: var(--cyan)">personal_interests:</span>
-  <span style="color: var(--magenta)">favorite_dish:</span> "Parmigiana"
-  <span style="color: var(--magenta)">pets:</span>
-    <span style="color: var(--magenta)">cat:</span> true
-    <span style="color: var(--magenta)">dog:</span> false
-  <span style="color: var(--magenta)">favorite_sport:</span> "Football"
-  <span style="color: var(--magenta)">supported_teams:</span>
-    - "AC Milan"
-    - "US Catanzaro"
-  <span style="color: var(--magenta)">top_5_movies:</span>
-    - "Django Unchained"
-    - "Rocky (Just The First One)"
-    - "Dragon Ball Z - Fusion Reborn"
-    - "Spiderman 2 (Sam Raimi)"
-    - "Who Framed Roger Rabbit"
-  <span style="color: var(--magenta)">top_5_video_games:</span>
-    - "Metal Gear Solid 2"
-    - "Bully: Scholarship Edition"
-    - "Batman: Arkham City"
-    - "Prince of Persia: Warrior Within"
-    - "Dragon Ball Z Budokai 3"
-<span style="color: var(--cyan)">preferences:</span>
-  <span style="color: var(--magenta)">OS:</span> "Linux-based OS" <span style="color: var(--light-gray);"># usually Ubuntu for work</span>
-  <span style="color: var(--magenta)">Vendor:</span> "Lenovo"
-  <span style="color: var(--magenta)">languages:</span>
-    - "Italian (Native)"
-    - "English (Fluent)"
-<span style="color: var(--cyan)">Work:</span>
-  <span style="color: var(--magenta)">Company:</span> "Digitality Consulting"
-  <span style="color: var(--magenta)">Myself:</span> "The Man Himself"
-<span style="color: var(--cyan)">status:</span>
-  <span style="color: var(--magenta)">hiring:</span> false
-  <span style="color: var(--magenta)">message:</span> "Not available for freelance projects or full-time positions."
-  <span style="color: var(--magenta)">coffee_meetings:</span> "Always accepted ☕"</pre>
-        </div>
-    </main>
 
-    <footer>
-        <span class="prompt">guest@user<span class="path">:~</span>$</span>
-        <span id="cmd-echo"></span><span class="cursor"></span>
-    </footer>
+  <noscript><style>.terminal-bar,.terminal-footer,.command-form,.typing-status,.pager{display:none}body{height:auto;overflow:auto}.terminal-screen{display:none}.noscript-content{padding:32px;max-width:960px;margin:auto}.noscript-content h1,.noscript-content h2{color:#bb9af7}.noscript-content p{margin:16px 0}</style><div class="noscript-content"><h1>Fabio Cosentino</h1><p>Enable JavaScript for the interactive terminal. The complete portfolio is available below.</p><section>
+  <div class="fetch">
+    <pre class="ascii-logo" aria-hidden="true"> ______   ___   ____   ___   ___
+|  ____| / _ \ |  _ \ |_ _| / _ \
+| |__   | |_| || |_) | | | | | | |
+|  __|  |  _  ||  _ &lt;  | | | | | |
+| |     | | | || |_) | | | | |_| |
+|_|     |_| |_||____/ |___| \___/</pre>
+    <div class="fetch-info">
+      <h1 class="fetch-name">Fabio Cosentino</h1>
+      <div class="fetch-rule" aria-hidden="true">----------------</div>
+      <dl class="fetch-specs">
+        <div><dt>Roles</dt><dd>SysAdmin / DevOps Engineer / Solution Architect</dd></div>
+        <div><dt>Focus</dt><dd>Cloud architectures</dd></div>
+        <div><dt>Work</dt><dd>Digitality Consulting</dd></div>
+        <div><dt>Location</dt><dd>Gasperina, Italy</dd></div>
+        <div><dt>OS</dt><dd>Linux-based OS <span class="token-comment"># usually Ubuntu for work</span></dd></div>
+        <div><dt>Interests</dt><dd>ARM architectures / Arch Linux</dd></div>
+        <div><dt>Languages</dt><dd>Italian (Native) / English (Fluent)</dd></div>
+      </dl>
+      <div class="ansi-palette" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+  </div>
+  <h2 class="output-heading">about / whoami.md</h2>
+  <div class="output-prose">
 
-    <script>
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('en-GB');
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        const cmdEcho = document.getElementById('cmd-echo');
-
-        const idleCommands = {
-            'about': [
-                "neofetch",
-                "uname -r",
-                "pacman -Syu",
-                "uptime",
-                "cat ~/.bashrc"
-            ],
-            'projects': [
-                "kubectl top nodes",
-                "git push --force origin main",
-                "docker system prune -a -f",
-                "terraform apply -auto-approve",
-                "tail -f /var/log/syslog"
-            ],
-            'contact': [
-                "kubectl get parmigiana -n kitchen",
-                "ping -c 4 linkedin.com",
-                "curl -X POST https://api.coffee.com/brew",
-                "ssh admin@matrix-server",
-                "nmap -sS localhost"
-            ]
-        };
-
-        let currentPhrase = "";
-        let phraseIdx = 0;
-        let charIdx = 0;
-        let isDeleting = false;
-        let isIdleMode = true;
-        let typewriterTimeout;
-        let currentTabId = 'about';
-
-        function doTypewriter() {
-            if (isIdleMode && currentPhrase === "") {
-                const commands = idleCommands[currentTabId];
-                currentPhrase = commands[phraseIdx % commands.length];
-            }
-
-            if (!isDeleting && charIdx <= currentPhrase.length) {
-                cmdEcho.innerText = currentPhrase.substring(0, charIdx);
-                charIdx++;
-                let typeSpeed = 50 + Math.random() * 50;
-
-                if (charIdx > currentPhrase.length) {
-                    isDeleting = true;
-                    typewriterTimeout = setTimeout(doTypewriter, 3000);
-                } else {
-                    typewriterTimeout = setTimeout(doTypewriter, typeSpeed);
-                }
-            } else if (isDeleting && charIdx >= 0) {
-                cmdEcho.innerText = currentPhrase.substring(0, charIdx);
-                charIdx--;
-
-                if (charIdx < 0) {
-                    isDeleting = false;
-                    currentPhrase = "";
-
-                    if (isIdleMode) {
-                        const commands = idleCommands[currentTabId];
-                        phraseIdx = (phraseIdx + 1) % commands.length;
-                        typewriterTimeout = setTimeout(doTypewriter, 800);
-                    }
-                } else {
-                    typewriterTimeout = setTimeout(doTypewriter, 25);
-                }
-            }
-        }
-
-        function switchTab(tabId, commandText) {
-            clearTimeout(typewriterTimeout);
-            isIdleMode = false;
-            isDeleting = false;
-            currentPhrase = commandText;
-            charIdx = 0;
-            currentTabId = tabId;
-
-            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.shortcuts span').forEach(btn => btn.classList.remove('active'));
-
-            document.getElementById(tabId).classList.add('active');
-            const targetBtn = document.querySelector(`[data-target="${tabId}"]`);
-            if (targetBtn) targetBtn.classList.add('active');
-
-            function typeCommandFast() {
-                if (charIdx <= currentPhrase.length) {
-                    cmdEcho.innerText = currentPhrase.substring(0, charIdx);
-                    charIdx++;
-                    setTimeout(typeCommandFast, 20);
-                } else {
-                    setTimeout(() => {
-                        isDeleting = true;
-                        isIdleMode = true;
-                        const commands = idleCommands[currentTabId];
-                        phraseIdx = Math.floor(Math.random() * commands.length);
-                        doTypewriter();
-                    }, 6000);
-                }
-            }
-            typeCommandFast();
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === '1') switchTab('about', 'cat whoami.md');
-            if (e.key === '2') switchTab('projects', 'kubectl get projects');
-            if (e.key === '3') switchTab('contact', 'cat contact.yaml');
-        });
-
-        window.onload = () => {
-            switchTab('about', 'cat whoami.md');
-        };
-    </script>
+    <p class="output-line">I specialize in designing, deploying, and maintaining robust infrastructures, bridging the gap between traditional on-premise environments and modern distributed systems. I am comfortable across the entire spectrum; my core expertise and daily focus are rooted in Cloud architectures.</p>
+    <p class="output-line">Under the hood, I am fascinated by the efficiency of ARM architectures and I am a proud Arch Linux enthusiast. And yes, I use Arch, btw.</p>
+  </div>
+  <p class="output-note"># Explore , , , or . Type  for all commands.</p>
+</section>
+<section>
+<h2 class="output-heading">stack / tree ./tech-stack</h2>
+<div class="stack-tree"><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Microservices</h3><p class="stack-values">Go / Python / Rust / Node.js</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> DevOps</h3><p class="stack-values">Kubernetes / Docker / GitHub Actions / Terraform / Terragrunt / Pulumi / Jenkins / Concourse / Ansible / Tekton / ArgoCD / Flux / ESO / CSI Driver Injection</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Kube Controllers</h3><p class="stack-values">Kopf / Go</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Repo</h3><p class="stack-values">Github / Gitea / Gitlab</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Secret Managers</h3><p class="stack-values">AWS SecretsManager / Infisical / Hashicorp Vault</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Cloud Providers</h3><p class="stack-values">GCP / Azure / AWS</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> DB</h3><p class="stack-values">MongoDB / NoSQL / PostgreSQL / MySQL</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> OS</h3><p class="stack-values">Windows 95+ / Debian / Ubuntu / Arch / Fedora / RedHat</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">├──</span> Idp</h3><p class="stack-values">Cloud Organizations / Authentik / Keycloak</p></div><div class="stack-group"><h3><span class="tree-branch" aria-hidden="true">└──</span> Other Skills</h3><p class="stack-values">FinOps / Karpenter / Hybrid Integration Test / SAST / DAST / SCA / Platform Engineering / Auto Promoting for Images and Charts</p></div></div>
+<p class="output-note"># 10 categories / 50 technology entries</p>
+</section>
+<section>
+<h2 class="output-heading">projects / kubectl get projects -n my-projects</h2>
+<p class="output-note"># 4 workloads found.</p>
+<div class="project-table-header" aria-hidden="true"><span>NAME</span><span>STATUS</span><span>READY</span><span>STACK</span><span>ENDPOINT</span></div>
+<div class="project-list"><article class="project-row">
+<h3 class="project-name">term-portfolio</h3>
+<span class="project-status running" data-label="Status">Running</span>
+<span class="project-ready" data-label="Ready">1/1</span>
+<span class="project-stack" data-label="Stack">HTML/CSS</span>
+<a class="project-endpoint" href="https://github.com/Costa-exe/costa-exe.github.io" target="_blank" rel="noopener noreferrer" aria-label="View term-portfolio repository">[Repo ↗]</a>
+<p class="project-description">Interactive terminal-based CV instance.</p>
+</article><article class="project-row">
+<h3 class="project-name">aur-taw</h3>
+<span class="project-status running" data-label="Status">Running</span>
+<span class="project-ready" data-label="Ready">1/1</span>
+<span class="project-stack" data-label="Stack">BASH</span>
+<a class="project-endpoint" href="https://github.com/Costa-exe/aur-taw" target="_blank" rel="noopener noreferrer" aria-label="View aur-taw repository">[Repo ↗]</a>
+<p class="project-description">Simple opt-in powerful AUR helper.</p>
+</article><article class="project-row">
+<h3 class="project-name">getting-rich-playing-tekken</h3>
+<span class="project-status terminated" data-label="Status">Terminated</span>
+<span class="project-ready" data-label="Ready">0/0</span>
+<span class="project-stack" data-label="Stack">Arcade-Stick</span>
+<span class="project-endpoint">[N/A]</span>
+<p class="project-description">couldn&#x27;t get good enough.</p>
+</article><article class="project-row">
+<h3 class="project-name">restoring-old-hardware</h3>
+<span class="project-status pending" data-label="Status">Pending</span>
+<span class="project-ready" data-label="Ready">0/2</span>
+<span class="project-stack" data-label="Stack">Screwdrivers/old_gameboys</span>
+<span class="project-endpoint">[Internal]</span>
+<p class="project-description">from time to time.</p>
+</article></div>
+<p class="output-note"># 2 / 4 running · 1 pending · 1 terminated</p>
+</section>
+<section>
+<h2 class="output-heading">contact / contact.yaml</h2>
+<p class="output-note"># The server is listening. Reach out via the following endpoints.</p>
+<div class="yaml-output"><section class="yaml-section"><h3>contact_info:</h3><dl class="yaml-fields"><div><dt>name:</dt><dd><span class="token-string">&quot;Fabio&quot;</span></dd></div><div><dt>last_name:</dt><dd><span class="token-string">&quot;Cosentino&quot;</span></dd></div><div><dt>email:</dt><dd><span class="token-string">&quot;<a href="mailto:fcosentino.dev@gmail.com">fcosentino.dev@gmail.com</a>&quot;</span> </dd></div><div><dt>github:</dt><dd><span class="token-string">&quot;<a href="https://github.com/Costa-exe" target="_blank" rel="noopener noreferrer">github.com/Costa-exe</a>&quot;</span></dd></div><div><dt>linkedin:</dt><dd><span class="token-string">&quot;<a href="https://www.linkedin.com/in/fabio-cosentino-4b9178170/" target="_blank" rel="noopener noreferrer">https://www.linkedin.com/in/fabio-cosentino-4b9178170/</a>&quot;</span></dd></div><div><dt>telegram:</dt><dd><span class="token-string">&quot;<a href="https://t.me/Costa__exe" target="_blank" rel="noopener noreferrer">@Costa__exe</a>&quot;</span></dd></div><div><dt>instagram:</dt><dd><span class="token-string">&quot;<a href="https://www.instagram.com/_costa.exe/" target="_blank" rel="noopener noreferrer">@_costa.exe</a>&quot;</span></dd></div><div><dt>discord:</dt><dd><span class="token-string">&quot;costa.exe&quot;</span> </dd></div><div><dt>website:</dt><dd><span class="token-string">&quot;<a href="https://costa-exe.github.io/" target="_blank" rel="noopener noreferrer">https://costa-exe.github.io/</a>&quot;</span></dd></div></dl></section><section class="yaml-section"><h3>location:</h3><dl class="yaml-fields"><div><dt>city:</dt><dd><span class="token-string">&quot;Gasperina&quot;</span></dd></div><div><dt>country:</dt><dd><span class="token-string">&quot;Italy&quot;</span></dd></div><div><dt>timezone:</dt><dd><span class="token-string">&quot;UTC+1 (CET)&quot;</span> <span class="token-comment"># UTC+2 (CEST) in summer</span></dd></div><div><dt>remote_friendly:</dt><dd><span class="token-bool">true</span></dd></div></dl></section><section class="yaml-section"><h3>Work:</h3><dl class="yaml-fields"><div><dt>Company:</dt><dd><span class="token-string">&quot;Digitality Consulting&quot;</span></dd></div><div><dt>Myself:</dt><dd><span class="token-string">&quot;The Man Himself&quot;</span></dd></div></dl></section><section class="yaml-section"><h3>status:</h3><dl class="yaml-fields"><div><dt>hiring:</dt><dd><span class="token-bool">false</span></dd></div><div><dt>message:</dt><dd><span class="token-string">&quot;Not available for freelance projects or full-time positions.&quot;</span></dd></div><div><dt>coffee_meetings:</dt><dd><span class="token-string">&quot;Always accepted ☕&quot;</span></dd></div></dl></section></div>
+</section>
+<section>
+<h2 class="output-heading">personal / personal.yaml</h2>
+<div class="yaml-output"><section class="yaml-section"><h3>personal_interests:</h3><dl class="yaml-fields"><div><dt>favorite_dish:</dt><dd><span class="token-string">&quot;Parmigiana&quot;</span></dd></div><div><dt>pets:</dt><dd><dl class="yaml-fields"><div><dt>cat:</dt><dd><span class="token-bool">true</span></dd></div><div><dt>dog:</dt><dd><span class="token-bool">false</span></dd></div></dl></dd></div><div><dt>favorite_sport:</dt><dd><span class="token-string">&quot;Football&quot;</span></dd></div><div><dt>supported_teams:</dt><dd><ol class="yaml-sequence"><li><span class="token-string">&quot;AC Milan&quot;</span></li><li><span class="token-string">&quot;US Catanzaro&quot;</span></li></ol></dd></div><div><dt>top_5_movies:</dt><dd><ol class="yaml-sequence"><li><span class="token-string">&quot;Django Unchained&quot;</span></li><li><span class="token-string">&quot;Rocky (Just The First One)&quot;</span></li><li><span class="token-string">&quot;Dragon Ball Z - Fusion Reborn&quot;</span></li><li><span class="token-string">&quot;Spiderman 2 (Sam Raimi)&quot;</span></li><li><span class="token-string">&quot;Who Framed Roger Rabbit&quot;</span></li></ol></dd></div><div><dt>top_5_video_games:</dt><dd><ol class="yaml-sequence"><li><span class="token-string">&quot;Metal Gear Solid 2&quot;</span></li><li><span class="token-string">&quot;Bully: Scholarship Edition&quot;</span></li><li><span class="token-string">&quot;Batman: Arkham City&quot;</span></li><li><span class="token-string">&quot;Prince of Persia: Warrior Within&quot;</span></li><li><span class="token-string">&quot;Dragon Ball Z Budokai 3&quot;</span></li></ol></dd></div></dl></section><section class="yaml-section"><h3>preferences:</h3><dl class="yaml-fields"><div><dt>OS:</dt><dd><span class="token-string">&quot;Linux-based OS&quot;</span> <span class="token-comment"># usually Ubuntu for work</span></dd></div><div><dt>Vendor:</dt><dd><span class="token-string">&quot;Lenovo&quot;</span></dd></div><div><dt>languages:</dt><dd><ol class="yaml-sequence"><li><span class="token-string">&quot;Italian (Native)&quot;</span></li><li><span class="token-string">&quot;English (Fluent)&quot;</span></li></ol></dd></div></dl></section></div>
+</section></div></noscript>
 </body>
-
 </html>
